@@ -5,11 +5,11 @@ import {
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
+  AlertDialogDescription,
   AlertDialogFooter,
-  AlertDialogHeader,
   AlertDialogTitle,
 } from "~/components/ui/alert-dialog";
-import { BsExclamationCircle } from "react-icons/bs";
+import { BsExclamationLg } from "react-icons/bs";
 
 const DeleteConfirmationModal = ({ selectedProjects, onDelete, onCancel }) => {
   const [open, setOpen] = useState(false);
@@ -28,36 +28,43 @@ const DeleteConfirmationModal = ({ selectedProjects, onDelete, onCancel }) => {
         onClick={() => setOpen(true)}
         disabled={selectedProjects.length === 0}
       >
-        Delete <MdDelete /> {selectedProjects.length ? `(${selectedProjects.length})` : ""}
+        Delete <MdDelete />{" "}
+        {selectedProjects.length ? `(${selectedProjects.length})` : ""}
       </button>
 
       <AlertDialog open={open} onOpenChange={setOpen}>
-        <AlertDialogContent className="max-w-md bg-white p-6 rounded-lg shadow-lg">
-          <div className="flex flex-col items-center gap-4">
-            <div className="w-16 h-16 rounded-full bg-failure-100 flex items-center justify-center">
-              <BsExclamationCircle className="w-8 h-8 text-failure-500" />
+          <AlertDialogContent className=" bg-white p-6 rounded-lg shadow-lg">
+            <div className="flex flex-col items-center gap-4">
+              <div className="w-10 h-10 rounded-full bg-failure-400 flex items-center justify-center border-4 border-failure-300">
+                <BsExclamationLg className="w-7 h-7 text-failure-600" />
+              </div>
+
+              <AlertDialogTitle className="text-xl font-medium text-center">
+                Are you sure you want to Delete Folowing {selectedProjects.length === 1 ? "File":"Files"}?
+            </AlertDialogTitle>
+            <AlertDialogDescription className="text-sm text-center text-neutral-900">
+              {selectedProjects.map((project) => (
+                <span key={project.id}>{project.name}, </span>
+              ))
+                  }
+            </AlertDialogDescription>
             </div>
 
-            <AlertDialogTitle className="text-xl font-semibold text-center">
-              Are you sure you want to Delete this File?
-            </AlertDialogTitle>
-          </div>
-
-          <AlertDialogFooter className="flex gap-4 justify-center mt-6">
-            <AlertDialogAction
-              className="bg-failure-500 hover:bg-failure-600 text-white px-6 py-2 rounded-lg border-0"
-              onClick={handleDelete}
-            >
-              Delete
-            </AlertDialogAction>
-            <AlertDialogCancel
-              className="bg-gray-50 hover:bg-gray-100 text-gray-900 px-6 py-2 rounded-lg border-0"
-              onClick={onCancel}
-            >
-              Cancel
-            </AlertDialogCancel>
-          </AlertDialogFooter>
-        </AlertDialogContent>
+            <AlertDialogFooter className="flex gap-4 justify-center mt-6">
+              <AlertDialogAction
+                className="bg-failure-500 hover:bg-failure-600 text-white px-6 py-2 rounded-lg border-0"
+                onClick={handleDelete}
+              >
+                Delete
+              </AlertDialogAction>
+              <AlertDialogCancel
+                className="bg-gray-50 hover:bg-gray-100 text-gray-900 px-6 py-2 rounded-lg border-0"
+                onClick={onCancel}
+              >
+                Cancel
+              </AlertDialogCancel>
+            </AlertDialogFooter>
+          </AlertDialogContent>
       </AlertDialog>
     </>
   );

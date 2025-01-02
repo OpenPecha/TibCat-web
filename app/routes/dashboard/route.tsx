@@ -32,7 +32,7 @@ export const loader:LoaderFunction = async () => {
 
 export default function route() {
   return (
-      <div>
+    <div className="">
           <Dashboard />
     </div>
   )

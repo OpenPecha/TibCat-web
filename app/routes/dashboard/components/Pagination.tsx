@@ -1,12 +1,12 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export const Pagination = ({ currentPage, totalPages, handlePageChange }) => (
-  <div className="flex items-center justify-center gap-2 mt-6">
+  <div className=" flex items-center justify-center gap-2">
     <button
       onClick={() => handlePageChange(currentPage - 1)}
       disabled={currentPage === 1}
       className={`p-2 rounded-lg ${
-        currentPage === 1 ? "text-gray-400" : "text-gray-700"
+        currentPage === 1 ? "text-gray-400 cursor-not-allowed" : "text-gray-700"
       }`}
     >
       <ChevronLeft size={20} />
@@ -30,7 +30,7 @@ export const Pagination = ({ currentPage, totalPages, handlePageChange }) => (
       onClick={() => handlePageChange(currentPage + 1)}
       disabled={currentPage === totalPages}
       className={`p-2 rounded-lg ${
-        currentPage === totalPages ? "text-gray-400" : "text-gray-700"
+        currentPage === totalPages ? "text-gray-400 cursor-not-allowed" : "text-gray-700"
       }`}
     >
       <ChevronRight size={20} />
