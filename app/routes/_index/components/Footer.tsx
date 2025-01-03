@@ -29,7 +29,8 @@ const Footer = () => {
       <main className="flex-1 flex flex-col items-center justify-center px-4 py-16">
         <GradientText style="gray">
           <div className="text-center">
-            Translation Reimagined.<br/> Available Today.
+            Translation Reimagined.
+            <br /> Available Today.
           </div>
         </GradientText>
         <button className="bg-secondary-800 hover:bg-secondary-900 text-white font-bold py-2 px-4 rounded-xl my-10">
@@ -51,7 +52,15 @@ const Footer = () => {
 
             <div className="flex items-center gap-2">
               <span className="text-neutral-800 font-medium">Product of</span>
-              <div className="h-10 bg-gradient-to-r from-purple-600 to-blue-600"></div>
+              <div
+                className="h-8 w-8 rounded-full flex items-center justify-center"
+                style={{
+                  background:
+                    "radial-gradient(50% 50% at 50% 50%, #FFFFFF 0%, #B39646 100%)",
+                }}
+              >
+                <img src="./assets/monlam.png" alt="monlam" className="h-4 w-5"/>
+              </div>
               <span className="text-neutral-800 font-semibold">Monlam AI</span>
             </div>
 
