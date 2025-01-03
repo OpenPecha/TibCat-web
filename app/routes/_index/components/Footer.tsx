@@ -1,6 +1,7 @@
 import { ArrowUpRight } from "lucide-react";
 import { FaFacebook, FaLinkedin, FaInstagram } from "react-icons/fa";
 import { SquareArrowOutUpRight } from "lucide-react";
+import GradientText from "./GradientText";
 const Footer = () => {
 
     const socialMedia = [
@@ -26,12 +27,11 @@ const Footer = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <main className="flex-1 flex flex-col items-center justify-center px-4 py-16">
-        <h1 className="text-5xl font-bold text-gray-700 text-center mb-2">
-          Translation Reimagined.
-        </h1>
-        <h2 className="text-5xl font-bold text-gray-700 text-center mb-8">
-          Available Today.
-        </h2>
+        <GradientText style="gray">
+          <div className="text-center">
+            Translation Reimagined.<br/> Available Today.
+          </div>
+        </GradientText>
         <button className="bg-secondary-800 hover:bg-secondary-900 text-white font-bold py-2 px-4 rounded-xl my-10">
           Get Started
         </button>
