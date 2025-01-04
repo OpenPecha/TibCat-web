@@ -1,3 +1,5 @@
+import { Link } from "@remix-run/react";
+
 export const ProjectItem = ({
   project,
   isSelecting,
@@ -21,7 +23,7 @@ export const ProjectItem = ({
     )}
     <div className="col-span-1 space-x-1">
       <span className="w-6 text-xs font-medium">{project.id}.</span>
-      <span className="w-48 text-xs font-medium">{project.name}</span>
+      <Link to={`/editor/${project.id}`} className="w-48 text-xs font-medium hover:underline">{project.name}</Link>
     </div>
 
     <div className="col-span-2 bg-gray-200 rounded-full h-2">

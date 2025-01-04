@@ -24,7 +24,7 @@ export default function Dashhero() {
           <div className="mx-auto bg-white rounded-t-3xl p-8">
             <div className="flex justify-between items-center mb-8">
               <div className="flex items-center space-x-2">
-                <img src="./assets/logo.png" alt="logo" className="h-8 w-8" />
+                <img src="/assets/logo.png" alt="logo" className="h-8 w-8" />
                 <div className="">
                   <p className="font-bold text-lg leading-4">Tibcat</p>
                   <p className="text-xs">by MonlamAi</p>
@@ -33,7 +33,7 @@ export default function Dashhero() {
               <div className="flex items-center gap-4">
                 <span className="text-xs font-medium">DashBoard</span>
                 <img
-                  src="./assets/profile.png"
+                  src="/assets/profile.png"
                   alt="logo"
                   className="h-10 w-10"
                 />

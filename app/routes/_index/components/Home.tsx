@@ -15,7 +15,7 @@ export default function Home() {
       <button className="bg-secondary-800 hover:bg-secondary-900 text-white font-bold py-2 px-4 rounded-xl my-10">
         Get Started
       </button>
-      <img src="./assets/hero.png" alt="hero" className="w-full" />
+      <img src="/assets/hero.png" alt="hero" className="w-full" />
     </div>
   );
 }

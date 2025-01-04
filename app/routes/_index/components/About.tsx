@@ -34,7 +34,7 @@ export default function About() {
           </div>
 
           <div className="w-full md:w-1/2 flex items-center justify-center">
-            <img src="./assets/kha.png" alt="about" className="w-full" />
+            <img src="/assets/kha.png" alt="about" className="w-full" />
           </div>
         </div>
       </div>

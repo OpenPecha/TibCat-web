@@ -59,7 +59,7 @@ const Footer = () => {
                     "radial-gradient(50% 50% at 50% 50%, #FFFFFF 0%, #B39646 100%)",
                 }}
               >
-                <img src="./assets/monlam.png" alt="monlam" className="h-4 w-5"/>
+                <img src="/assets/monlam.png" alt="monlam" className="h-4 w-5"/>
               </div>
               <span className="text-neutral-800 font-semibold">Monlam AI</span>
             </div>

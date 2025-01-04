@@ -5,7 +5,7 @@ export default function Header() {
     <div className="flex justify-between items-center p-4">
       
       <Link to="/" className="flex items-center space-x-2">
-        <img src="./assets/logo.png" alt="logo" className="h-10" />
+        <img src="/assets/logo.png" alt="logo" className="h-10" />
         <div className="flex flex-col items-center justify-center">
           <p className="font-bold text-2xl leading-6">Tibcat</p>
           <p className="text-xs">by MonlamAi</p>
