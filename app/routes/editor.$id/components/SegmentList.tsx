@@ -90,8 +90,8 @@ const TranslationAccordion = () => {
 
   useEffect(() => {
     const handleKeyDown = (e) => {
-      e.preventDefault();
       if (e.ctrlKey) {
+      e.preventDefault();
         const activeSegment = segments[segments.length - 1];
 
         switch (e.key) {
@@ -125,7 +125,15 @@ const TranslationAccordion = () => {
   }, [segments]);
 
   
-
+const editTranslation = (segmentId, newTranslation) => {
+  setSegments((prevSegments) =>
+    prevSegments.map((segment) =>
+      segment.id === segmentId
+        ? { ...segment, translation: newTranslation }
+        : segment
+    )
+  );
+};
   const updateTranslation = (segmentId, newTranslation) => {
     setSegments(
       segments.map((segment) =>
@@ -180,7 +188,7 @@ const TranslationAccordion = () => {
               />
             </AccordionTrigger>
             <AccordionContent>
-              <TranslationContent segment={segment} setSegments={setSegments} />
+              <TranslationContent segment={segment} editTranslation={editTranslation} />
             </AccordionContent>
           </AccordionItem>
         ))}

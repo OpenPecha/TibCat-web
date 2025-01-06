@@ -41,10 +41,6 @@ export const ActionButtons = ({
         </button>
       </div>
     )}
-    {/* <button className="bg-success-500 text-white px-6 py-2 rounded-lg flex items-center gap-2 text-xs font-medium">
-      Import
-      <Plus size={20} />
-    </button> */}
     <FileUploadDialog />
   </div>
 );

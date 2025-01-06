@@ -43,7 +43,7 @@ export const ProjectItem = ({
     <div className="cols-span-1 flex items-center justify-between space-x-2">
       {project.progress === 100 ? (
         <span className="w-1/2 px-4 py-1 bg-success-500 text-white rounded-lg text-xs font-medium text-center">
-          Completed
+          Translated
         </span>
       ) : (
         <span className="w-1/2 px-4 py-1 bg-neutral-600 rounded-lg text-xs font-medium text-white text-center">
