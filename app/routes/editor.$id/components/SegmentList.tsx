@@ -90,6 +90,7 @@ const TranslationAccordion = () => {
 
   useEffect(() => {
     const handleKeyDown = (e) => {
+      e.preventDefault();
       if (e.ctrlKey) {
         const activeSegment = segments[segments.length - 1];
 
@@ -122,6 +123,8 @@ const TranslationAccordion = () => {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [segments]);
+
+  
 
   const updateTranslation = (segmentId, newTranslation) => {
     setSegments(
@@ -177,7 +180,7 @@ const TranslationAccordion = () => {
               />
             </AccordionTrigger>
             <AccordionContent>
-              <TranslationContent segment={segment} />
+              <TranslationContent segment={segment} setSegments={setSegments} />
             </AccordionContent>
           </AccordionItem>
         ))}

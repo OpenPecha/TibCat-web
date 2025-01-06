@@ -1,6 +1,15 @@
-import { s } from "node_modules/vite/dist/node/types.d-aGj9QkWt";
+const TranslationContent = ({ segment, setSegments }) => {
 
-const TranslationContent = ({segment}) => {
+const editTranslation = (segmentId, newTranslation) => {
+  setSegments((prevSegments) =>
+    prevSegments.map((segment) =>
+      segment.id === segmentId
+        ? { ...segment, translation: newTranslation }
+        : segment
+    )
+  );
+};
+
   return (
     <div className="w-full bg-white rounded-lg border border-primary-600 px-10 pb-4">
       <div className="flex justify-center mb-4">
@@ -15,9 +24,12 @@ const TranslationContent = ({segment}) => {
           <div className="w-4 h-4 rounded-full bg-primary-700"></div>
         </div>
         <p className="flex-1 font-poppins">{segment.sourceText}</p>
-        <p className="flex-1 shadow-input pt-1 pb-3 px-3 border-[0.5px] rounded-md text-[20px] leading-5">
-          {segment.translation}
-        </p>
+        <input
+          className="flex-1 shadow-input pt-1 pb-3 px-3 border-[0.5px] rounded-md text-[20px] leading-5 outline-none ring-0 bg-white"
+          type="text"
+          value={segment.translation}
+          onChange={(e) => editTranslation(segment.id, e.target.value)}
+        />
       </div>
 
       <div className="space-y-2">
@@ -32,7 +44,7 @@ const TranslationContent = ({segment}) => {
         {/* First Suggestion */}
         <div className="max-h-48 overflow-y-scroll scrollbar-hide">
           {segment?.suggestions?.map((suggestion) => (
-            <div className="mb-4" key={suggestion.id}>
+            <div className="mb-4" key={suggestion.text}>
               <div className="flex items-start justify-between ">
                 <p className="flex-1 text-neutral-800 text-xs font-poppins">
                   {segment.sourceText}
