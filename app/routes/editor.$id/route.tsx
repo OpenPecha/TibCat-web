@@ -52,6 +52,6 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 };
 export default function route() {
     return <div className="px-10 w-full">
-        <SegmentList/>
+      <SegmentList />
     </div>;
 }

@@ -4,12 +4,14 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLocation,
 } from "@remix-run/react";
-import type { LinksFunction } from "@remix-run/node";
+import type { LinksFunction, LoaderFunction } from "@remix-run/node";
 
 import "./styles/tailwind.css";
 import "./styles/global.css";
 import Header from "./components/Header";
+import { getUserSession } from "./services/session.server";
 
 export const links: LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -42,13 +44,33 @@ export function Layout({ children }: { children: React.ReactNode }) {
   );
 }
 
+export const loader: LoaderFunction = async ({ request }) => {
+  const url = new URL(request.url);
+  const domain = url.hostname;
+  const isLocal = domain === "localhost";
+
+  const auth = {
+    domain: process.env.AUTH0_DOMAIN,
+    clientId: process.env.AUTH0_CLIENT_ID,
+    host: isLocal ? "http://" + domain + ":3000" : "https://" + domain,
+  };
+  const user = await getUserSession(request);
+  return { auth, user };
+};
+
 export default function App() {
+  const location = useLocation();
+  const isLoginRoute =
+    location.pathname === "/login" || location.pathname === "/signin";
+
   return (
     <div className="flex flex-col min-h-screen bg-white text-black">
-      <header className="h-16">
-        <Header />  
-      </header>
-      <main className="flex-grow">
+      {!isLoginRoute && (
+        <header className="">
+          <Header />
+        </header>
+      )}
+      <main className={`flex-grow`}>
         <Outlet />
       </main>
     </div>
