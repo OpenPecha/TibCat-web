@@ -52,7 +52,7 @@ function Route() {
     startAuth();
   }, []);
   return (
-    <div className="flex items-center justify-center h-screen bg-primary-100 ">
+    <div className="flex items-center justify-center h-screen">
       <LoadingRing />
     </div>
   );

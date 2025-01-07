@@ -2,8 +2,10 @@ import { ArrowUpRight } from "lucide-react";
 import { FaFacebook, FaLinkedin, FaInstagram } from "react-icons/fa";
 import { SquareArrowOutUpRight } from "lucide-react";
 import GradientText from "./GradientText";
+import Button from "~/components/Buttons";
+import { Link, useLoaderData } from "@remix-run/react";
 const Footer = () => {
-
+  const { user } = useLoaderData();
     const socialMedia = [
       {
         id: 1,
@@ -33,9 +35,9 @@ const Footer = () => {
             <br /> Available Today.
           </div>
         </GradientText>
-        <button className="bg-secondary-800 hover:bg-secondary-900 text-white font-bold py-2 px-4 rounded-xl my-10">
-          Get Started
-        </button>
+        <Button color="neutral" className=" py-2 px-4 my-10">
+          <Link to={user?"/dashboard":"/login"}> Get Started </Link>
+        </Button>
       </main>
 
       {/* Footer */}
@@ -59,7 +61,11 @@ const Footer = () => {
                     "radial-gradient(50% 50% at 50% 50%, #FFFFFF 0%, #B39646 100%)",
                 }}
               >
-                <img src="/assets/monlam.png" alt="monlam" className="h-4 w-5"/>
+                <img
+                  src="/assets/monlam.png"
+                  alt="monlam"
+                  className="h-4 w-5"
+                />
               </div>
               <span className="text-neutral-800 font-semibold">Monlam AI</span>
             </div>

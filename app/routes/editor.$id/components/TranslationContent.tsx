@@ -7,27 +7,60 @@ const TranslationContent = ({
   editTranslation,
   handleAccordionChange,
   splitSegment,
+  updateTranslation,
+  segments,
 }) => {
   const [isSpliting, setIsSpliting] = useState(false);
   const [clickedIndex, setClickedIndex] = useState(null);
 
-  const handleSplit = () => { 
+  const handleSplit = () => {
     splitSegment(segment.id, clickedIndex + 1);
     setIsSpliting(false);
-  }
+  };
+
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.ctrlKey) {
-        e.preventDefault();
-        if (e.key === "s") {
-          setIsSpliting(true);
+
+        console.log("key", e.key);
+        switch (e.key) {
+          case "1":
+            e.preventDefault();
+            if (segment?.suggestions[0]) {
+              updateTranslation(segment.id, 0);
+            }
+            break;
+          case "2":
+            e.preventDefault();
+            if (segment?.suggestions[1]) {
+              updateTranslation(segment.id, 1);
+            }
+            break;
+          case "3":
+            e.preventDefault();
+            if (segment?.suggestions[2]) {
+              updateTranslation(segment.id, 2);
+            }
+            break;
+          case "4":
+            e.preventDefault();
+            if (segment?.suggestions[3]) {
+              updateTranslation(segment.id, 3);
+            }
+            break;
+          case "s":
+            e.preventDefault();
+            setIsSpliting(true);
+
+            break;
         }
       }
     };
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, []);
+  }, [segments]);
+
   return (
     <div className="w-full bg-white rounded-lg border border-primary-600 px-4 relative group/{split}">
       <div
@@ -92,7 +125,7 @@ const TranslationContent = ({
         )}
 
         <div className="flex-1 flex flex-col item-center">
-          <div className="relative flex-1 w-fit">
+          <div className="relative flex-1 w-full">
             <div className="invisible whitespace-pre-wrap break-words pt-1 pb-3 px-3 text-[14px] leading-5 font-monlam resize-none">
               {segment.translation}
             </div>

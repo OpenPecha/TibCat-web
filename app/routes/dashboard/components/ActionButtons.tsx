@@ -1,4 +1,4 @@
-import { Plus } from "lucide-react";
+import Button from "~/components/Buttons";
 import DeleteConfirmationModal from "./DeleteModal";
 import FileUploadDialog from "./FileUploadDialog";
 export const ActionButtons = ({
@@ -12,33 +12,36 @@ export const ActionButtons = ({
 }) => (
   <div className="flex items-center justify-center space-x-2">
     {!isSelecting ? (
-      <button
-        className="bg-surface-light text-black px-6 py-2 rounded-lg flex items-center gap-2 text-sm font-medium shadow-inner"
-        onClick={() => setisSelecting(true)}
-      >
-        Select
-      </button>
+      <Button
+          color="secondary"
+          className=""
+          onClick={() => setisSelecting(true)}
+        >
+          Select
+        </Button>
     ) : (
       <div className="flex items-center gap-2">
-        <button
-          className="bg-surface-light text-black px-6 py-2 rounded-lg flex items-center gap-2 text-sm font-medium shadow-inner"
+        <Button
+          color="secondary"
+          className=""
           onClick={cancelSelection}
         >
           Cancel
-        </button>
+        </Button>
         <DeleteConfirmationModal
           selectedProjects={selectedProjects}
           onDelete={handleDelete}
           onCancel={cancelSelection}
         />
-        <button
-          className="bg-surface-light text-black px-6 py-2 rounded-lg flex items-center gap-2 text-sm font-medium shadow-inner"
+        <Button
+          color="secondary"
+          className=""
           onClick={handleSelectAll}
         >
-          {selectedProjects.size === displayedProjects.length
+          {selectedProjects.length === displayedProjects.length
             ? "Deselect All"
             : "Select All"}
-        </button>
+        </Button>
       </div>
     )}
     <FileUploadDialog />

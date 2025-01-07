@@ -43,7 +43,7 @@ export default function Dashboard() {
 
 
   const handleSelectAll = () => {
-    if (selectedProjects.size === displayedProjects.length) {
+    if (selectedProjects.length === displayedProjects.length) {
       setSelectedProjects([]);
     } else {
       setSelectedProjects(displayedProjects);
@@ -60,7 +60,6 @@ export default function Dashboard() {
     setSelectedProjects([]);
     setisSelecting(false);
   };
-
   return (
     <div className="flex items-center justify-center">
       <div className="w-full p-10 space-y-6">

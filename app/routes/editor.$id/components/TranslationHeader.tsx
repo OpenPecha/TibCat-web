@@ -4,7 +4,7 @@ const TranslationHeader = ({ englishText, tibetanText }) => {
       <div className="flex items-center jusitfy-center">
         <div className="flex w-4 h-4 bg-success-500 rounded-full" />
       </div>
-      <div className="flex">
+      <div className="flex-1 flex">
         <p className="flex-1 text-sm text-gray-900 text-left font-poppins">{englishText}</p>
 
         <p className="flex-1 text-xs leading-relaxed text-gray-700 text-left font-monlam">{tibetanText}</p>

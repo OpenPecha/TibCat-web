@@ -5,6 +5,7 @@ import { DropZone } from "./DropZone";
 import  { UploadProgress }  from "./UploadProgress";
 import { FileDetails } from "./FileDetails";
 import { useFileUpload } from "~/hooks/useFileUpload";
+import Button from "~/components/Buttons";
 
 export default function FileUploadDialog() {
   const [open, setOpen] = useState(false);
@@ -67,13 +68,10 @@ export default function FileUploadDialog() {
 
   return (
     <>
-      <button
-        onClick={() => setOpen(true)}
-        className="bg-green-500 text-white px-6 py-2 rounded-lg flex items-center gap-2 text-xs font-medium"
-      >
+      <Button color="primary" className="" onClick={() => setOpen(true)}>
         Import
         <Plus size={15} />
-      </button>
+      </Button>
 
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="bg-white max-w-2xl">

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   Accordion,
   AccordionContent,
@@ -12,7 +12,7 @@ import TranslationProgress from "./TranslationProgress";
 const TranslationAccordion = () => {
   const [segments, setSegments] = useState([
     {
-      id: 1,
+      id: 0,
       sourceText:
         "I am passionate about contributing to an environment that values diverse voices and perspectives, and I believe my experiences will enrich the collaborative and dynamic culture",
       translation:
@@ -41,76 +41,93 @@ const TranslationAccordion = () => {
           source: "NLLB MT",
           language: "Tibetan (BODH)",
           confidence: 40,
+        },
+      ],
+    },
+    {
+      id: 1,
+      sourceText:
+        "Technology is transforming the way we work and interact with each other.",
+      translation:
+        "ཐོག་དབང་གསར་རིག་གི་བསྒྲིགས་ཆས་ངེས་བསྟར་སྐབས་དང་གྲོས་བསྡུར་བྱེད་སྒོ་ལས་སྤར་དང་མཐུན་འབྲེལ་བྱེད་པའི་ལས་སྦྱོང་ཡིད་རུང་ལྡན་པ།",
+      suggestions: [
+        {
+          text: "གཞི་བདག་ཐོག་དབང་གསར་རིག་ལས་སྦྱོང་རྣམས་སྒྲིག་བཀག་ལོག་རྒྱ་བར་དུ་དམིགས་པ་བྱས་ཏེ།",
+          source: "Mirta MT",
+          language: "Tibetan (BODH)",
+          confidence: 85,
+        },
+        {
+          text: "གསར་རིག་འདི་རང་ཚུལ་བཞིན་བསྒྲིགས་སྐབས་རིང་གི་མཚུངས་སུ་བསྟར་སྤོ་བྱེད་ཡོད།",
+          source: "NLLB MT",
+          language: "Tibetan (BODH)",
+          confidence: 75,
         },
       ],
     },
     {
       id: 2,
       sourceText:
-        "I am passionate about contributing to an environment that values diverse voices and perspectives, and I believe my experiences will enrich the collaborative and dynamic culture",
-      translation:
-        "ང་ནི་སྣ་མང་དང་འབྲེལ་དང་རྒྱ་ཆེའི་མི་རིག་པ་མཉམ་ལ་འཕེལ་འདེགས་སྒྲུབ་མཁན་གྱི་ཚད་པ་དང་ཡིད་ཆེས་ཡོད།ང་ནི་སྣ་མང་དང་འབྲེལ་དང་རྒྱ་ཆེའི་མི་རིག་པ་མཉམ་ལ་འཕེལ་འདེགས་སྒྲུབ་མཁན་གྱི་ཚད་པ་དང་ཡིད་ཆེས་ཡོད།ཡིད་ཆེས་ཡོད།ང་ནི་སྣ་མང་དང་འབྲེལ་དང་རྒྱ་ཆེའི་མི་རིག་པ་མཉམ་ལ་འཕེལ་འདེགས་སྒྲུབ་མཁན་གྱི་ཚད་པ་དང་ཡིད་ཆེས་ཡོད།",
+        "Education is the key to unlocking the potential of future generations.",
+      translation: "ཡོན་ཏན་རང་བྱུང་བའི་སྐོར་བར་གོམ་རྒྱུགས་སྟོན་པའི་རྩ་བ་གྲུབ།",
       suggestions: [
         {
-          text: "ནི་སྣ་མང་དང་འབྲེལ་དང་རྒྱ་ཆེའི་མི་རིག་པ་མཉམ་ལ་འཕེལ་འདེགས་སྒྲུབ་མཁན་གྱི་ཚད་པ་དང་ཡིད་ཆེས་ཡོད།",
+          text: "མཉམ་ལ་འབྲེལ་འདིར་ཡོངས་གཉིས་ཡིན་ཏེ།",
           source: "Mirta MT",
           language: "Tibetan (BODH)",
-          confidence: 90,
-        },
-        {
-          text: "མང་དང་འབྲེལ་དང་རྒྱ་ཆེའི་མི་རིག་པ་མཉམ་ལ་འཕེལ་འདེགས་སྒྲུབ་མཁན་གྱི་ཚད་པ་དང་ཡིད་ཆེས་ཡོད།",
-          source: "NLLB MT",
-          language: "Tibetan (BODH)",
           confidence: 80,
         },
         {
-          text: "དང་འབྲེལ་དང་རྒྱ་ཆེའི་མི་རིག་པ་མཉམ་ལ་འཕེལ་འདེགས་སྒྲུབ་མཁན་གྱི་ཚད་པ་དང་ཡིད་ཆེས་ཡོད།",
+          text: "མངོན་སུམ་ཐོབ་རིགས་ཀྱི་ལས་གཞི་ཡིན་པ་འདྲ་གསལ་རུ་བཤད།",
           source: "NLLB MT",
           language: "Tibetan (BODH)",
-          confidence: 80,
-        },
-        {
-          text: "འབྲེལ་དང་རྒྱ་ཆེའི་མི་རིག་པ་མཉམ་ལ་འཕེལ་འདེགས་སྒྲུབ་མཁན་གྱི་ཚད་པ་དང་ཡིད་ཆེས་ཡོད།",
-          source: "NLLB MT",
-          language: "Tibetan (BODH)",
-          confidence: 40,
+          confidence: 78,
         },
       ],
     },
     {
       id: 3,
       sourceText:
-        "I am passionate about contributing to an environment that values diverse voices and perspectives, and I believe my experiences will enrich the collaborative and dynamic culture",
+        "Global warming is a pressing issue that requires immediate attention.",
       translation:
-        "ང་ནི་སྣ་མང་དང་འབྲེལ་དང་རྒྱ་ཆེའི་མི་རིག་པ་མཉམ་ལ་འཕེལ་འདེགས་སྒྲུབ་མཁན་གྱི་ཚད་པ་དང་ཡིད་ཆེས་ཡོད།ང་ནི་སྣ་མང་དང་འབྲེལ་དང་རྒྱ་ཆེའི་མི་རིག་པ་མཉམ་ལ་འཕེལ་འདེགས་སྒྲུབ་མཁན་གྱི་ཚད་པ་དང་ཡིད་ཆེས་ཡོད།ཡིད་ཆེས་ཡོད།ང་ནི་སྣ་མང་དང་འབྲེལ་དང་རྒྱ་ཆེའི་མི་རིག་པ་མཉམ་ལ་འཕེལ་འདེགས་སྒྲུབ་མཁན་གྱི་ཚད་པ་དང་ཡིད་ཆེས་ཡོད།",
+        "རྒྱ་གར་འཁྲུག་བསྒྲུབས་གཉིས་ཀ་དང་དུས་གཞིའི་གནས་ལ་འབད་མཁན་ཡོད།",
       suggestions: [
         {
-          text: "ནི་སྣ་མང་དང་འབྲེལ་དང་རྒྱ་ཆེའི་མི་རིག་པ་མཉམ་ལ་འཕེལ་འདེགས་སྒྲུབ་མཁན་གྱི་ཚད་པ་དང་ཡིད་ཆེས་ཡོད།",
+          text: "དགའ་རྒྱལ་ཡུལ་དུ་བསྒྲུབས་དང་འབད་བར་རྒྱུག་རྒྱུ་ཡོད།",
+          source: "Mirta MT",
+          language: "Tibetan (BODH)",
+          confidence: 88,
+        },
+        {
+          text: "རིང་བསྟར་ལས་འཕེལ་དགོས་ཡིན།",
+          source: "NLLB MT",
+          language: "Tibetan (BODH)",
+          confidence: 76,
+        },
+      ],
+    },
+    {
+      id: 4,
+      sourceText:
+        "Artificial Intelligence is shaping the future of many industries.",
+      translation: "རང་རིག་སྒྲིག་བསྒྲིགས་དང་ལས་གཞི་རྣམས་གཞི་རྒྱག་སུ་སྒྲུབ་ཡོད།",
+      suggestions: [
+        {
+          text: "གནས་ཚུལ་བསྟན་དུ་བསྒྲུབས་རེ་འཚོགས་ཡོད།",
           source: "Mirta MT",
           language: "Tibetan (BODH)",
           confidence: 90,
         },
         {
-          text: "མང་དང་འབྲེལ་དང་རྒྱ་ཆེའི་མི་རིག་པ་མཉམ་ལ་འཕེལ་འདེགས་སྒྲུབ་མཁན་གྱི་ཚད་པ་དང་ཡིད་ཆེས་ཡོད།",
+          text: "འཕྲོ་རྒྱུ་མེད་སྒྲིགས་དུ་འབད་ཡོད།",
           source: "NLLB MT",
           language: "Tibetan (BODH)",
-          confidence: 80,
-        },
-        {
-          text: "དང་འབྲེལ་དང་རྒྱ་ཆེའི་མི་རིག་པ་མཉམ་ལ་འཕེལ་འདེགས་སྒྲུབ་མཁན་གྱི་ཚད་པ་དང་ཡིད་ཆེས་ཡོད།",
-          source: "NLLB MT",
-          language: "Tibetan (BODH)",
-          confidence: 80,
-        },
-        {
-          text: "འབྲེལ་དང་རྒྱ་ཆེའི་མི་རིག་པ་མཉམ་ལ་འཕེལ་འདེགས་སྒྲུབ་མཁན་གྱི་ཚད་པ་དང་ཡིད་ཆེས་ཡོད།",
-          source: "NLLB MT",
-          language: "Tibetan (BODH)",
-          confidence: 40,
+          confidence: 84,
         },
       ],
     },
   ]);
+
   const [activeSegment, setActiveSegment] = useState(null);
 
   const handleAccordionChange = (value) => {
@@ -218,44 +235,6 @@ const TranslationAccordion = () => {
     );
   };
 
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.ctrlKey) {
-        const activeSegment = segments[segments.length - 1];
-
-        console.log("key", e.key);
-        switch (e.key) {
-          case "1":
-            e.preventDefault();
-            if (activeSegment?.suggestions[0]) {
-              updateTranslation(activeSegment.id, 0);
-            }
-            break;
-          case "2":
-            e.preventDefault();
-            if (activeSegment?.suggestions[1]) {
-              updateTranslation(activeSegment.id, 1);
-            }
-            break;
-          case "3":
-            e.preventDefault();
-            if (activeSegment?.suggestions[2]) {
-              updateTranslation(activeSegment.id, 2);
-            }
-            break;
-          case "4":
-            e.preventDefault();
-            if (activeSegment?.suggestions[3]) {
-              updateTranslation(activeSegment.id, 3);
-            }
-            break;
-        }
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [segments]);
 
   return (
     <div className="w-full mx-auto p-4 max-w-6xl">
@@ -280,6 +259,8 @@ const TranslationAccordion = () => {
                 editTranslation={editTranslation}
                 handleAccordionChange={handleAccordionChange}
                 splitSegment={splitSegment}
+                updateTranslation={updateTranslation}
+                segments={segments}
               />
             </AccordionContent>
           </AccordionItem>
