@@ -24,7 +24,6 @@ export const action: ActionFunction = async ({ request }) => {
   const session = await getSession(request.headers.get("Cookie"));
 
   if (!user) return null;
-  console.log("usesr :::: ", user)
   session.set("user", user);
   
   return redirect("/dashboard", {

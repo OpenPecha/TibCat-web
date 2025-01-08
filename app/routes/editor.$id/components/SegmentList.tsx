@@ -13,6 +13,7 @@ const TranslationAccordion = () => {
   const [segments, setSegments] = useState([
     {
       id: 0,
+      isTranslated: false,
       sourceText:
         "I am passionate about contributing to an environment that values diverse voices and perspectives, and I believe my experiences will enrich the collaborative and dynamic culture",
       translation:
@@ -46,6 +47,7 @@ const TranslationAccordion = () => {
     },
     {
       id: 1,
+      isTranslated: false,
       sourceText:
         "Technology is transforming the way we work and interact with each other.",
       translation:
@@ -67,6 +69,7 @@ const TranslationAccordion = () => {
     },
     {
       id: 2,
+      isTranslated: false,
       sourceText:
         "Education is the key to unlocking the potential of future generations.",
       translation: "ཡོན་ཏན་རང་བྱུང་བའི་སྐོར་བར་གོམ་རྒྱུགས་སྟོན་པའི་རྩ་བ་གྲུབ།",
@@ -87,6 +90,7 @@ const TranslationAccordion = () => {
     },
     {
       id: 3,
+      isTranslated: false,
       sourceText:
         "Global warming is a pressing issue that requires immediate attention.",
       translation:
@@ -108,6 +112,7 @@ const TranslationAccordion = () => {
     },
     {
       id: 4,
+      isTranslated: false,
       sourceText:
         "Artificial Intelligence is shaping the future of many industries.",
       translation: "རང་རིག་སྒྲིག་བསྒྲིགས་དང་ལས་གཞི་རྣམས་གཞི་རྒྱག་སུ་སྒྲུབ་ཡོད།",
@@ -128,12 +133,28 @@ const TranslationAccordion = () => {
     },
   ]);
 
-  const [activeSegment, setActiveSegment] = useState(null);
+  const [activeSegment, setActiveSegment] = useState<string | null>(null);
 
   const handleAccordionChange = (value) => {
     setActiveSegment((prev) => (prev === value ? null : value));
   };
 
+  const handleTranslationChange = (segmentId, newTranslation) => {
+    setSegments(
+      segments.map((segment) =>
+        segment.id === segmentId
+          ? { ...segment, translation: newTranslation, isTranslated: true }
+          : segment
+      )
+    );
+    const currentSegId = "segment-" + (segmentId + 1);
+    setActiveSegment((prev) =>
+      prev === currentSegId
+        ? null
+        : currentSegId
+    );
+
+  }
   const updateTranslation = (segmentId, suggestionIndex) => {
     setSegments(
       segments.map((segment) => {
@@ -251,13 +272,14 @@ const TranslationAccordion = () => {
               <TranslationHeader
                 englishText={segment.sourceText}
                 tibetanText={segment.translation}
+                isTranslated={segment.isTranslated}
               />
             </AccordionTrigger>
             <AccordionContent>
               <TranslationContent
                 segment={segment}
                 editTranslation={editTranslation}
-                handleAccordionChange={handleAccordionChange}
+                handleTranslationChange={handleTranslationChange}
                 splitSegment={splitSegment}
                 updateTranslation={updateTranslation}
                 segments={segments}

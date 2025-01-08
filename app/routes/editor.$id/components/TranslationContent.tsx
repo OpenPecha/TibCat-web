@@ -5,7 +5,7 @@ import SplitIcon from "~/icons/SplitIcon";
 const TranslationContent = ({
   segment,
   editTranslation,
-  handleAccordionChange,
+  handleTranslationChange,
   splitSegment,
   updateTranslation,
   segments,
@@ -21,7 +21,6 @@ const TranslationContent = ({
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.ctrlKey) {
-
         console.log("key", e.key);
         switch (e.key) {
           case "1":
@@ -141,7 +140,7 @@ const TranslationContent = ({
             <button
               className=" px-3 py-1 bg-secondary-600 text-white text-sm rounded-md hover:scale-105 transition-transform duration-100 mt-1"
               onClick={() =>
-                handleAccordionChange("segment-" + (segment.id + 1))
+                handleTranslationChange(segment.id, segment.translation)
               }
             >
               Translated
