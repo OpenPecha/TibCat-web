@@ -288,7 +288,7 @@ const TranslationAccordion = () => {
           </AccordionItem>
         ))}
       </Accordion>
-      <TranslationProgress />
+      <TranslationProgress segments={segments} />
     </div>
   );
 };
