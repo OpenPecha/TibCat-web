@@ -45,7 +45,7 @@ export function DropZone({
             onChange={(e) => onFileSelect(e.target.files[0])}
           />
           <p className="text-sm text-gray-500 mt-2">
-            Supported files: PDF, Word, Excel, Text (Max 10MB)
+            Supported files: PDF, Word, Text (Max 10MB)
           </p>
         </div>
       </div>

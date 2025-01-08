@@ -31,7 +31,7 @@ const Exportdocs = () => {
       <>
         <button
           onClick={() => setOpen(true)}
-          className={`w-1/2 px-4 py-1 rounded-lg text-xs bg-success-700 text-white font-medium text-center`}
+          className={`flex-1 px-4 py-1 rounded-lg text-xs bg-success-700 text-white font-medium text-center`}
         >
           Export
         </button>

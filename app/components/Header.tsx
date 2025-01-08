@@ -10,7 +10,7 @@ export default function Header() {
     setIsSignoutOpened((prev) => !prev);
   };
   return (
-    <div className="flex justify-between items-center py-4 px-10">
+    <div className="flex justify-between items-center p-4">
       <Link to="/" className="flex items-center space-x-2">
         <img src="/assets/logo.png" alt="logo" className="h-10" />
         <div className="flex flex-col items-center justify-center">
