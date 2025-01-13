@@ -4,7 +4,7 @@ import Exportdocs from "~/components/Exportdocs";
 
 export default function route() {
     return (
-      <div>
+      <>
         <div className="flex justify-between items-center p-4">
           <Link
             to="/dashboard"
@@ -16,10 +16,8 @@ export default function route() {
             <Exportdocs />
           </div>
         </div>
-        {/* <div className="border border-neutral-800" />    */}
-        {/* <hr /> */}
         <div className="border-t border-t-neutral-600" />
         <Outlet />
-      </div>
+      </>
     );
 }

@@ -11,7 +11,9 @@ export default function FileUploadDialog() {
   const [open, setOpen] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef(null);
-
+  const HandleStartTranslation=(data)=>{
+  console.log(data)
+  }
   const {
     uploadState,
     uploadProgress,
@@ -38,7 +40,7 @@ export default function FileUploadDialog() {
             setUploadState("idle");
             setFileDetails(null);
           }}
-          onTranslate={() => console.log("Translate")}
+          onTranslate={HandleStartTranslation}
         />
       );
     }

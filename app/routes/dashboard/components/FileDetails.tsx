@@ -1,8 +1,11 @@
 import FileIcon from "~/icons/FileIcon";
 import ModelList from "./ModelList";
 import { IoIosArrowBack } from "react-icons/io";
+import { useState } from "react";
 
 export function FileDetails({ fileDetails, onChooseNewFile, onTranslate }) {
+  const [order, setOrder] = useState(['Melong', 'Mitra']);
+
 
   return (
     <div className="border border-dashed border-primary-900 rounded-lg p-8 m-2">
@@ -35,7 +38,7 @@ export function FileDetails({ fileDetails, onChooseNewFile, onTranslate }) {
             <h4 className="text-sm text-neutral-800 mb-2">
               Order your Machine Translation Model
             </h4>
-            <ModelList />
+            <ModelList handleOrderChange={setOrder}/>
           </div>
         </div>
       </div>
@@ -49,7 +52,7 @@ export function FileDetails({ fileDetails, onChooseNewFile, onTranslate }) {
           Choose Different File
         </button>
         <button
-          onClick={onTranslate}
+          onClick={()=>onTranslate(order)}
           className="bg-green-500 text-white px-6 py-2 rounded-lg"
         >
           Translate

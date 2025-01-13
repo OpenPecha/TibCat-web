@@ -1,36 +1,17 @@
 import { ArrowUpRight } from "lucide-react";
-import { FaFacebook, FaLinkedin, FaInstagram } from "react-icons/fa";
+import { Link, useLoaderData } from "@remix-run/react";
 import { SquareArrowOutUpRight } from "lucide-react";
 import GradientText from "./GradientText";
 import Button from "~/components/Buttons";
-import { Link, useLoaderData } from "@remix-run/react";
+import { MonlamProduct, socialMedia } from "~/lib/constants";
 const Footer = () => {
   const { user } = useLoaderData();
-    const socialMedia = [
-      {
-        id: 1,
-        name: "Facebook",
-        icon: FaFacebook,
-        link: "https://facebook.com",
-      },
-      {
-        id: 2,
-        name: "LinkedIn",
-        icon: FaLinkedin,
-        link: "https://linkedin.com",
-      },
-      {
-        id: 3,
-        name: "Instagram",
-        icon: FaInstagram,
-        link: "https://instagram.com",
-      },
-    ];
+    
   return (
     <div className="min-h-screen flex flex-col">
       <main className="flex-1 flex flex-col items-center justify-center px-4 py-16">
         <GradientText style="gray">
-          <div className="text-center">
+          <div className="text-center text-[55px]">
             Translation Reimagined.
             <br /> Available Today.
           </div>
@@ -44,13 +25,13 @@ const Footer = () => {
       <footer className="px-8 py-6 border-t">
         <div className="mx-auto flex flex-wrap justify-between items-start gap-8">
           <div className="flex flex-col space-y-6">
-            <div className="">
+            <span className="text-bold">
               <p className="text-sm font-medium">
                 Monlam It & Research Center,
               </p>
               <p className="text-sm font-medium">Dharamshala - 176215,</p>
               <p className="text-sm font-medium">Distt. Kangra (H.P) - India</p>
-            </div>
+            </span>
 
             <div className="flex items-center gap-2">
               <span className="text-neutral-800 font-medium">Product of</span>
@@ -89,17 +70,18 @@ const Footer = () => {
           <div className="space-y-4">
             <h3 className="font-bold text-lg">More from MonlamAI</h3>
             <div className="space-y-2">
-              {["Monlam Melong", "Monlam Translate", "Monlam Extension"].map(
+              {MonlamProduct.map(
                 (item) => (
                   <div
-                    key={item}
+                    key={item.name}
                     className="flex items-center justify-end gap-2 text-neutral-800 hover:text-neutral-900"
                   >
                     <a
-                      href="#"
+                      target="_blank"
+                      href={item.link}
                       className="flex items-center gap-1 text-sm font-medium"
                     >
-                      {item}
+                      {item.name}
                       <SquareArrowOutUpRight
                         size={15}
                         className="text-black ml-1"

@@ -10,7 +10,7 @@ export default function Header() {
     setIsSignoutOpened((prev) => !prev);
   };
   return (
-    <div className="flex justify-between items-center p-4">
+    <header className="flex justify-between items-center p-4 h-[64px]">
       <Link to="/" className="flex items-center space-x-2">
         <img src="/assets/logo.png" alt="logo" className="h-10" />
         <div className="flex flex-col items-center justify-center">
@@ -59,6 +59,6 @@ export default function Header() {
           </Link>
         )}
       </div>
-    </div>
+    </header>
   );
 }

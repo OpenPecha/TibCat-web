@@ -24,12 +24,12 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 export default function Index() {
   return (
-    <div className="">
+    <>
       <Home />
       <About />
       <Dashhero />
       <Footer />
-    </div>
+    </>
   );
 }
 

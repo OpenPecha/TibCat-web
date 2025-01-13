@@ -26,14 +26,23 @@ const allProjects = [
 ];
 
 
-export const loader:LoaderFunction = async () => {
-  return allProjects;
+export const loader:LoaderFunction = async ({request}) => {
+
+
+
+
+  const searchQuery = new URL(request.url).searchParams.get("search") || "";
+  const filteredProjects = allProjects.filter((project) =>
+    project.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  return {
+    filteredProjects,
+    totalProjects: allProjects.length,
+  };
 };
 
 export default function route() {
-  return (
-    <div className="">
-          <Dashboard />
-    </div>
-  )
+  return <Dashboard />
+  
 }

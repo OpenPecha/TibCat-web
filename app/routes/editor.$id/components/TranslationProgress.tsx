@@ -1,13 +1,11 @@
 import { FaArrowRightLong } from "react-icons/fa6";
-
-const TranslationProgress = ({
-  fileName = "MonlamMelong.docx",
-  jobId = "12314443424",
-  sourceLanguage = "English",
-  targetLanguage = "Tibetan",
-  segments
-}) => {
-
+import {useLoaderData} from '@remix-run/react'
+const TranslationProgress = () => {
+  const {progress}=useLoaderData();
+  const {
+    fileName,jobId,sourceLanguage,targetLanguage,
+    segments
+  }=progress;
   const totalWords = segments.reduce((sum, segment) => {
     return sum + segment.sourceText.split(" ").length;
   }, 0);

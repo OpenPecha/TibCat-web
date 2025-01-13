@@ -2,26 +2,22 @@
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import { useState } from "react";
 import StarIcon from "~/icons/StartIcon";
+import { MODAL_LIST } from "~/lib/constants";
 
-function ModelList() {
-   const [items, setItems] = useState([
-     {
-       id: "1",
-       name: "Melong",
-       description: "Recommended for Regular literature",
-     },
-     {
-       id: "2",
-       name: "Mitra",
-       description: "Recommended for Buddhist literature",
-     },
-   ]);
+function ModelList({handleOrderChange}:{
+  handleOrderChange:(items:any)=>void
+}) {
+   const [items, setItems] = useState(MODAL_LIST);
+
+
   function handleOnDragEnd(result) {
     if (!result.destination) return;
     const newBox = Array.from(items);
     const [draggedItem] = newBox.splice(result.source.index, 1);
     newBox.splice(result.destination.index, 0, draggedItem);
     setItems(newBox);
+    const list= newBox.map((item) => item.name);
+    handleOrderChange(list);
   }
 
   return (

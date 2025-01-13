@@ -8,7 +8,7 @@ const GradientText = ({ children, style = "green" }) => {
     gray: {
       background:
         "radial-gradient(48.44% 187.46% at 50% 50%, #444444 64.43%, rgba(0, 0, 0, 0.4) 96.15%)",
-      className: "text-3xl font-extrabold",
+      className: "text-[55px] font-extrabold",
       color: "transparent",
     },
   };

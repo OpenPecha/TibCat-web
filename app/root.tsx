@@ -66,11 +66,9 @@ export default function App() {
   return (
     <div className="flex flex-col min-h-screen bg-white text-black">
       {!isLoginRoute && (
-        <header className="">
           <Header />
-        </header>
       )}
-      <main className={`flex-grow`}>
+      <main className={`flex-1`}>
         <Outlet />
       </main>
     </div>
