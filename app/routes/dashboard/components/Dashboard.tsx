@@ -113,7 +113,6 @@ export default function Dashboard() {
 
         {filteredProjects.length > 0 && (
           <Pagination
-            currentPage={currentPage}
             totalPages={totalPages}
             handlePageChange={handlePageChange}
           />

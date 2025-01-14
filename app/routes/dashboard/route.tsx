@@ -26,11 +26,8 @@ const allProjects = [
 ];
 
 
-export const loader:LoaderFunction = async ({request}) => {
-
-
-
-
+export const loader: LoaderFunction = async ({ request }) => {
+  
   const searchQuery = new URL(request.url).searchParams.get("search") || "";
   const filteredProjects = allProjects.filter((project) =>
     project.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -38,11 +35,10 @@ export const loader:LoaderFunction = async ({request}) => {
 
   return {
     filteredProjects,
-    totalProjects: allProjects.length,
+    totalProjects: filteredProjects.length,
   };
 };
 
 export default function route() {
-  return <Dashboard />
-  
+  return <Dashboard /> 
 }
