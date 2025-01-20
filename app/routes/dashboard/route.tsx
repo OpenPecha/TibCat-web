@@ -1,6 +1,8 @@
 
+import { getUserSession } from "~/services/session.server";
 import Dashboard from "./components/Dashboard";
-import { LoaderFunction } from "@remix-run/node";
+import { LoaderFunction, redirect } from "@remix-run/node";
+import { getDocuments } from "~/api/Documents";
 
 const allProjects = [
   { id: 1, name: "Translation Guide.docx", progress: 100 },
@@ -25,17 +27,21 @@ const allProjects = [
   { id: 20, name: "Training_Log_2024.pdf", progress: 45 },
 ];
 
-
 export const loader: LoaderFunction = async ({ request }) => {
-  
+  const user = await getUserSession(request);
+  if (!user) {
+    return redirect("/login");
+  }
+  const documents = await getDocuments(user.id)
   const searchQuery = new URL(request.url).searchParams.get("search") || "";
-  const filteredProjects = allProjects.filter((project) =>
-    project.name.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredDocuments = documents.filter((project) =>
+    project.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return {
-    filteredProjects,
-    totalProjects: filteredProjects.length,
+    user,
+    filteredDocuments,
+    totalProjects: filteredDocuments.length,
   };
 };
 

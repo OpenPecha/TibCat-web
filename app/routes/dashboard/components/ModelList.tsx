@@ -16,7 +16,8 @@ function ModelList({handleOrderChange}:{
     const [draggedItem] = newBox.splice(result.source.index, 1);
     newBox.splice(result.destination.index, 0, draggedItem);
     setItems(newBox);
-    const list= newBox.map((item) => item.name);
+    const list = newBox.map((item) => item.name);
+    console.log("list", list);  
     handleOrderChange(list);
   }
 

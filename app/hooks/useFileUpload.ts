@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useFetcher } from "@remix-run/react";
+import { useEffect, useState } from "react";
 import { ALLOWED_TYPES, MAX_FILE_SIZE } from "~/lib/constants";
 
 export function useFileUpload() {
+  const fetcher = useFetcher()
   const [uploadState, setUploadState] = useState("idle");
-  const [uploadProgress, setUploadProgress] = useState(0);
   const [error, setError] = useState("");
   const [fileDetails, setFileDetails] = useState(null);
 
@@ -17,27 +18,21 @@ export function useFileUpload() {
   };
 
   const uploadFile = async (file) => {
-    setUploadState("uploading");
-    setUploadProgress(0);
+    try {
+      setUploadState("uploading");
+      const formdata = new FormData();
+      formdata.append("file", file);
+       fetcher.submit(formdata, {
+         method: "post",
+         action: "/api/uploadFile",
+         encType: "multipart/form-data",
+       });
 
-    return new Promise((resolve) => {
-      let progress = 0;
-      const interval = setInterval(() => {
-        progress += 10;
-        setUploadProgress(progress);
-
-        if (progress >= 100) {
-          clearInterval(interval);
-          setUploadState("complete");
-          setFileDetails({
-            fileName: file.name,
-            jobId: Math.floor(Math.random() * 1000000000000),
-            wordCount: Math.floor(Math.random() * 5000),
-          });
-          resolve();
-        }
-      }, 500);
-    });
+    } catch (error) {
+      console.error("Upload error:", error);
+      setUploadState("error");
+      setError(fetcher.data?.error || "Upload failed"); 
+    }
   };
 
   const handleFile = async (file) => {
@@ -50,9 +45,24 @@ export function useFileUpload() {
     }
   };
 
+ useEffect(() => {
+   if (fetcher.state === "idle" && fetcher.data) {
+     if (fetcher.data.success) {
+       setUploadState("complete");
+       setFileDetails({
+         fileName: fetcher.data.data.fileName,
+         jobId: "fetcher.data.data.jobId",
+         wordCount: " fetcher.data.data.wordCount",
+         file_url: fetcher.data.data.file_url,
+       });
+     } else {
+       setUploadState("error");
+       setError(fetcher.data.error || "Upload failed");
+     }
+   }
+ }, [fetcher.state, fetcher.data]);
   return {
     uploadState,
-    uploadProgress,
     error,
     fileDetails,
     handleFile,

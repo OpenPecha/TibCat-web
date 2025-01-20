@@ -1,28 +1,51 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Plus } from "lucide-react";
 import { Dialog, DialogContent } from "~/components/ui/dialog";
 import { DropZone } from "./DropZone";
-import  { UploadProgress }  from "./UploadProgress";
+import { UploadProgress } from "./UploadProgress";
 import { FileDetails } from "./FileDetails";
 import { useFileUpload } from "~/hooks/useFileUpload";
 import Button from "~/components/Buttons";
+import { useFetcher, useLoaderData } from "@remix-run/react";
+import toast from "react-hot-toast";
+import Toast from "~/components/Toast";
 
 export default function FileUploadDialog() {
+  const fetcher = useFetcher();
+  const { user } = useLoaderData();
   const [open, setOpen] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef(null);
-  const HandleStartTranslation=(data)=>{
-  console.log(data)
-  }
   const {
     uploadState,
-    uploadProgress,
     error,
     fileDetails,
     handleFile,
     setUploadState,
     setFileDetails,
   } = useFileUpload();
+  useEffect(() => {
+    if (fetcher.data && fetcher.data?.success) {
+      setOpen(false);
+      setUploadState("idle");
+      Toast("File started processing...")
+    }
+  }, [fetcher.data]);
+
+  const HandleStartTranslation = async (fileDetail, model) => {
+    const formData = new FormData();
+    formData.append("file_url", fileDetail.file_url);
+    formData.append("user_id", user.id);
+    formData.append("domain", "tibcat");
+    formData.append("source_lang", "en");
+    formData.append("target_lang", "bo");
+    formData.append("translation_order", model);
+
+    fetcher.submit(formData, {
+      method: "post",
+      action: "/api/translate", // Replace with your actual API endpoint
+    });
+  };
 
   const handleDrop = (e) => {
     e.preventDefault();
@@ -41,12 +64,13 @@ export default function FileUploadDialog() {
             setFileDetails(null);
           }}
           onTranslate={HandleStartTranslation}
+          translationStatus={fetcher.state}
         />
       );
     }
 
     if (uploadState === "uploading") {
-      return <UploadProgress progress={uploadProgress} />;
+      return <UploadProgress />;
     }
 
     return (

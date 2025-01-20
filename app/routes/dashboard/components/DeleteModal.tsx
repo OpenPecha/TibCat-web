@@ -1,5 +1,5 @@
 import { MdDelete } from "react-icons/md";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -11,12 +11,38 @@ import {
 } from "~/components/ui/alert-dialog";
 import { BsExclamationLg } from "react-icons/bs";
 import Button from "~/components/Buttons";
+import { useFetcher } from "@remix-run/react";
+import { c } from "node_modules/vite/dist/node/types.d-aGj9QkWt";
+import toast from "react-hot-toast";
+import Toast from "~/components/Toast";
 
 const DeleteConfirmationModal = ({ selectedProjects, onDelete, onCancel }) => {
+  const fetcher = useFetcher();
   const [open, setOpen] = useState(false);
 
+  useEffect(() => {
+    if (fetcher.state === "idle" && fetcher.data) {
+      if (fetcher.data?.success) {
+      const documentTitles = selectedProjects.map((project) => project.title).join(", ");
+
+        onDelete();
+        Toast(`${documentTitles} Deleted Successfully`);
+
+      }
+    }
+  }, [fetcher.state]);
+
   const handleDelete = () => {
-    onDelete();
+    const documentIds = selectedProjects.map((project) => project.id);
+    const formData = new FormData();
+    formData.append("documentIds", JSON.stringify(documentIds));
+    fetcher.submit(
+      formData,
+      {
+        method: "delete",
+        action: "/api/deleteDocs", // Replace with your actual API endpoint
+      }
+    );
     setOpen(false);
   };
 
@@ -44,7 +70,7 @@ const DeleteConfirmationModal = ({ selectedProjects, onDelete, onCancel }) => {
             </AlertDialogTitle>
             <AlertDialogDescription className="text-sm text-center text-neutral-900">
               {selectedProjects.map((project) => (
-                <span key={project.id}>{project.name}, </span>
+                <span key={project.id}>{project.title}, </span>
               ))}
             </AlertDialogDescription>
           </div>

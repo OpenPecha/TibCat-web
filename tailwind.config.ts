@@ -164,10 +164,24 @@ export default {
             height: "0",
           },
         },
+        loading: {
+          "0%": { transform: "translateX(-100%)" },
+          "100%": { transform: "translateX(100%)" },
+        },
+        spin: {
+          "0%": {
+            transform: "rotate(0deg)",
+          },
+          "100%": {
+            transform: "rotate(360deg)",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        loading: "loading 1s infinite linear",
+        spin :"spin 1s linear infinite"
       },
     },
   },

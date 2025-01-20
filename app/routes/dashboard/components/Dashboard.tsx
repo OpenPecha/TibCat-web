@@ -8,7 +8,7 @@ import { Pagination } from "./Pagination";
 import { ITEM_PER_PAGES } from "~/lib/constants";
 
 export default function Dashboard() {
-  const {filteredProjects,totalProjects} = useLoaderData();
+  const {filteredDocuments,totalProjects} = useLoaderData();
   const [isSelecting, setisSelecting] = useState(false);
   const [param,setParam]=useSearchParams();
 
@@ -33,7 +33,7 @@ export default function Dashboard() {
 
   const totalPages = Math.ceil(totalProjects / ITEM_PER_PAGES);
   const startIndex = (currentPage - 1) * ITEM_PER_PAGES;
-  const displayedProjects = filteredProjects.slice(
+  const displayedProjects = filteredDocuments.slice(
     startIndex,
     startIndex + ITEM_PER_PAGES
   );
@@ -64,6 +64,7 @@ export default function Dashboard() {
 
   const handleDelete = () => {
     // this should do a api call instead
+    console.log("deleting")
     setSelectedProjects([]);
     setisSelecting(false);
   };
@@ -97,21 +98,22 @@ export default function Dashboard() {
         </div>
 
         <div className="space-y-6">
-          {filteredProjects.length === 0 && (
+          {filteredDocuments.length === 0 && (
             <div className="text-center text-gray-600">No projects found</div>
           )}
-          {displayedProjects.map((project:any) => (
+          {displayedProjects.map((project:any,index) => (
             <ProjectItem
               key={project.id}
               project={project}
               isSelecting={isSelecting}
               selectedProjects={selectedProjects}
               toggleProjectSelection={toggleProjectSelection}
+              index={index}
             />
           ))}
         </div>
 
-        {filteredProjects.length > 0 && (
+        {filteredDocuments.length > 7 && (
           <Pagination
             totalPages={totalPages}
             handlePageChange={handlePageChange}

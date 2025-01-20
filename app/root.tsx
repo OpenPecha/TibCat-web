@@ -2,6 +2,7 @@ import {
   Links,
   Meta,
   Outlet,
+  redirect,
   Scripts,
   ScrollRestoration,
   useLocation,
@@ -12,6 +13,7 @@ import "./styles/tailwind.css";
 import "./styles/global.css";
 import Header from "./components/Header";
 import { getUserSession } from "./services/session.server";
+import { Toaster } from "react-hot-toast";
 
 export const links: LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -55,19 +57,17 @@ export const loader: LoaderFunction = async ({ request }) => {
     host: isLocal ? "http://" + domain + ":3000" : "https://" + domain,
   };
   const user = await getUserSession(request);
+ 
   return { auth, user };
 };
 
 export default function App() {
   const location = useLocation();
-  const isLoginRoute =
-    location.pathname === "/login" || location.pathname === "/signin";
-
+  const isPublicRoute = ["/login"].includes(location.pathname);
   return (
     <div className="flex flex-col min-h-screen bg-white text-black">
-      {!isLoginRoute && (
-          <Header />
-      )}
+      <Toaster position="top-right" />
+      {!isPublicRoute && <Header />}
       <main className={`flex-1`}>
         <Outlet />
       </main>

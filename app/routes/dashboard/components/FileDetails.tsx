@@ -2,16 +2,22 @@ import FileIcon from "~/icons/FileIcon";
 import ModelList from "./ModelList";
 import { IoIosArrowBack } from "react-icons/io";
 import { useState } from "react";
+import LoadingRing from "~/components/LoadingRing";
 
-export function FileDetails({ fileDetails, onChooseNewFile, onTranslate }) {
-  const [order, setOrder] = useState(['Melong', 'Mitra']);
-
+export function FileDetails({
+  fileDetails,
+  onChooseNewFile,
+  onTranslate,
+  translationStatus,
+}) {
+  console.log("status ::", translationStatus);
+  const [order, setOrder] = useState(["Melong", "Mitra"]);
 
   return (
     <div className="border border-dashed border-primary-900 rounded-lg p-8 m-2">
       <div className="flex items-center justify-around mb-8">
         <div className="flex-1">
-          <FileIcon height={100}  width={100} className="mx-auto"/>
+          <FileIcon height={100} width={100} className="mx-auto" />
         </div>
         <div className="flex-1">
           <div>
@@ -23,13 +29,15 @@ export function FileDetails({ fileDetails, onChooseNewFile, onTranslate }) {
               </p>
               <p className="text-sm">
                 <span className="text-sm text-neutral-800">Job id:</span>{" "}
-                {fileDetails.jobId}
+                {/* {fileDetails.jobId} */}
+                jd12333
               </p>
               <p className="text-sm">
                 <span className="text-sm text-neutral-800">
                   Total Word Count:
                 </span>{" "}
-                {fileDetails.wordCount}
+                2350
+                {/* {fileDetails.wordCount} */}
               </p>
             </div>
           </div>
@@ -38,7 +46,7 @@ export function FileDetails({ fileDetails, onChooseNewFile, onTranslate }) {
             <h4 className="text-sm text-neutral-800 mb-2">
               Order your Machine Translation Model
             </h4>
-            <ModelList handleOrderChange={setOrder}/>
+            <ModelList handleOrderChange={setOrder} />
           </div>
         </div>
       </div>
@@ -51,12 +59,18 @@ export function FileDetails({ fileDetails, onChooseNewFile, onTranslate }) {
           <IoIosArrowBack className="w-6 h-6" />
           Choose Different File
         </button>
-        <button
-          onClick={()=>onTranslate(order)}
-          className="bg-green-500 text-white px-6 py-2 rounded-lg"
-        >
-          Translate
-        </button>
+        {translationStatus === "idle" ? (
+          <button
+            onClick={() => onTranslate(fileDetails, order)}
+            className="bg-green-500 text-white px-6 py-2 rounded-lg"
+          >
+            Translate
+          </button>
+        ) : (
+          <div className="flex items-center justify-center bg-green-500 px-6 py-2 rounded-lg">
+            <div className="w-6 h-6 border-4 border-primary-50 border-t-transparent rounded-full animate-spin"></div>
+          </div>
+        )}
       </div>
     </div>
   );
