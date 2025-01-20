@@ -1,76 +1,80 @@
-import { useLoaderData,useSearchParams } from "@remix-run/react";
+import { useLoaderData, useSearchParams } from "@remix-run/react";
 import { useState } from "react";
 import { SearchBar } from "./SearchBar";
 import { SortSelect } from "./SortSelect";
 import { ActionButtons } from "./ActionButtons";
-import { ProjectItem } from "./ProjectItem";
+import { DocumentItem } from "./DocumentItem";
 import { Pagination } from "./Pagination";
 import { ITEM_PER_PAGES } from "~/lib/constants";
 
 export default function Dashboard() {
-  const {filteredDocuments,totalProjects} = useLoaderData();
+  const { filteredDocuments } = useLoaderData();
   const [isSelecting, setisSelecting] = useState(false);
-  const [param,setParam]=useSearchParams();
+  const [param, setParam] = useSearchParams();
 
-  const [selectedProjects, setSelectedProjects] = useState([]);
+  const [selectedDocuments, setSelectedDocuments] = useState([]);
 
-  const searchQuery=param.get("search")||"";
-  const setSearchQuery=(value:string)=>{
-    setParam(p=>{
-      p.set("search",value);
+  const searchQuery = param.get("search") || "";
+  const setSearchQuery = (value: string) => {
+    setParam((p) => {
+      p.set("search", value);
       return p;
-    })
-  }
-  const currentPage=param.get("page")||1;
-  const setCurrentPage=(value:number)=>{
-    setParam(p=>{
-      p.set("page",value);
+    });
+  };
+  const currentPage = param.get("page") || 1;
+
+  const sortBy = param.get("sort") || "";
+  const setSortBy = (value: string) => {
+    setParam((p) => {
+      p.set("sort", value);
       return p;
-    })
-  }
-
-
-
-  const totalPages = Math.ceil(totalProjects / ITEM_PER_PAGES);
+    });
+  };
+  const setCurrentPage = (value: number) => {
+    setParam((p) => {
+      p.set("page", value);
+      return p;
+    });
+  };
+  const totalPages = Math.ceil(filteredDocuments.length / ITEM_PER_PAGES);
   const startIndex = (currentPage - 1) * ITEM_PER_PAGES;
-  const displayedProjects = filteredDocuments.slice(
+  const displayDocuments = filteredDocuments.slice(
     startIndex,
     startIndex + ITEM_PER_PAGES
   );
 
-  const handlePageChange = (pageNumber:number) => {
+  const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
   };
 
-  const toggleProjectSelection = (project:any) => {
-    setSelectedProjects((prev) => {
-      const isSelectedProject = prev.find((p) => p.id === project.id); 
+  const toggleDocumentSelection = (document: any) => {
+    setSelectedDocuments((prev) => {
+      const isSelectedProject = prev.find((p) => p.id === document.id);
       if (isSelectedProject) {
-        return prev.filter((p) => p.id !== project.id);
+        return prev.filter((p) => p.id !== document.id);
       } else {
-        return [...prev, project];
+        return [...prev, document];
       }
     });
   };
 
-
   const handleSelectAll = () => {
-    if (selectedProjects.length === displayedProjects.length) {
-      setSelectedProjects([]);
+    if (selectedDocuments.length === displayDocuments.length) {
+      setSelectedDocuments([]);
     } else {
-      setSelectedProjects(displayedProjects);
+      setSelectedDocuments(displayDocuments);
     }
   };
 
   const handleDelete = () => {
     // this should do a api call instead
-    console.log("deleting")
-    setSelectedProjects([]);
+    console.log("deleting");
+    setSelectedDocuments([]);
     setisSelecting(false);
   };
 
   const cancelSelection = () => {
-    setSelectedProjects([]);
+    setSelectedDocuments([]);
     setisSelecting(false);
   };
   return (
@@ -84,13 +88,13 @@ export default function Dashboard() {
               setSearchQuery={setSearchQuery}
               setCurrentPage={setCurrentPage}
             />
-            <SortSelect />
+            <SortSelect sortBy={sortBy} setSortBy={setSortBy} />
           </div>
           <ActionButtons
             isSelecting={isSelecting}
             setisSelecting={setisSelecting}
-            selectedProjects={selectedProjects}
-            displayedProjects={displayedProjects}
+            selectedDocuments={selectedDocuments}
+            displayDocuments={displayDocuments}
             handleSelectAll={handleSelectAll}
             handleDelete={handleDelete}
             cancelSelection={cancelSelection}
@@ -101,16 +105,27 @@ export default function Dashboard() {
           {filteredDocuments.length === 0 && (
             <div className="text-center text-gray-600">No projects found</div>
           )}
-          {displayedProjects.map((project:any,index) => (
-            <ProjectItem
-              key={project.id}
-              project={project}
-              isSelecting={isSelecting}
-              selectedProjects={selectedProjects}
-              toggleProjectSelection={toggleProjectSelection}
-              index={index}
-            />
-          ))}
+          {displayDocuments
+            .sort((a, b) => {
+              if (sortBy === "date") {
+                return new Date(b.created_at) - new Date(a.created_at);
+              } else if (sortBy === "file_type") {
+                const extA = a.title.split(".").pop().toLowerCase(); 
+                const extB = b.title.split(".").pop().toLowerCase(); 
+                return extA.localeCompare(extB);
+              }
+              return 0;
+            })
+            .map((document: any, index) => (
+              <DocumentItem
+                key={document.id}
+                document={document}
+                isSelecting={isSelecting}
+                selectedDocuments={selectedDocuments}
+                toggleDocumentSelection={toggleDocumentSelection}
+                index={index}
+              />
+            ))}
         </div>
 
         {filteredDocuments.length > 7 && (

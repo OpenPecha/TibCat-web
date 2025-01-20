@@ -16,14 +16,14 @@ import { c } from "node_modules/vite/dist/node/types.d-aGj9QkWt";
 import toast from "react-hot-toast";
 import Toast from "~/components/Toast";
 
-const DeleteConfirmationModal = ({ selectedProjects, onDelete, onCancel }) => {
+const DeleteConfirmationModal = ({ selectedDocuments, onDelete, onCancel }) => {
   const fetcher = useFetcher();
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
     if (fetcher.state === "idle" && fetcher.data) {
       if (fetcher.data?.success) {
-      const documentTitles = selectedProjects.map((project) => project.title).join(", ");
+      const documentTitles = selectedDocuments.map((project) => project.title).join(", ");
 
         onDelete();
         Toast(`${documentTitles} Deleted Successfully`);
@@ -33,7 +33,7 @@ const DeleteConfirmationModal = ({ selectedProjects, onDelete, onCancel }) => {
   }, [fetcher.state]);
 
   const handleDelete = () => {
-    const documentIds = selectedProjects.map((project) => project.id);
+    const documentIds = selectedDocuments.map((project) => project.id);
     const formData = new FormData();
     formData.append("documentIds", JSON.stringify(documentIds));
     fetcher.submit(
@@ -52,10 +52,10 @@ const DeleteConfirmationModal = ({ selectedProjects, onDelete, onCancel }) => {
         color="secondary"
         className="px-6 py-2 text-sm font-medium"
         onClick={() => setOpen(true)}
-        disabled={selectedProjects.length === 0}
+        disabled={selectedDocuments.length === 0}
       >
         Delete <MdDelete />{" "}
-        {selectedProjects.length ? `(${selectedProjects.length})` : ""}
+        {selectedDocuments.length ? `(${selectedDocuments.length})` : ""}
       </Button>
       <AlertDialog open={open} onOpenChange={setOpen}>
         <AlertDialogContent className=" bg-white p-6 rounded-lg shadow-lg">
@@ -66,10 +66,10 @@ const DeleteConfirmationModal = ({ selectedProjects, onDelete, onCancel }) => {
 
             <AlertDialogTitle className="text-xl font-medium text-center">
               Are you sure you want to Delete Folowing{" "}
-              {selectedProjects.length === 1 ? "File" : "Files"}?
+              {selectedDocuments.length === 1 ? "File" : "Files"}?
             </AlertDialogTitle>
             <AlertDialogDescription className="text-sm text-center text-neutral-900">
-              {selectedProjects.map((project) => (
+              {selectedDocuments.map((project) => (
                 <span key={project.id}>{project.title}, </span>
               ))}
             </AlertDialogDescription>

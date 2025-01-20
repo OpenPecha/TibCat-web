@@ -4,8 +4,8 @@ import FileUploadDialog from "./FileUploadDialog";
 export const ActionButtons = ({
   isSelecting,
   setisSelecting,
-  selectedProjects,
-  displayedProjects,
+  selectedDocuments,
+  displayDocuments,
   handleSelectAll,
   handleDelete,
   cancelSelection,
@@ -13,32 +13,24 @@ export const ActionButtons = ({
   <div className="flex items-center justify-center space-x-2">
     {!isSelecting ? (
       <Button
-          color="secondary"
-          className=""
-          onClick={() => setisSelecting(true)}
-        >
-          Select
-        </Button>
+        color="secondary"
+        className=""
+        onClick={() => setisSelecting(true)}
+      >
+        Select
+      </Button>
     ) : (
       <div className="flex items-center gap-2">
-        <Button
-          color="secondary"
-          className=""
-          onClick={cancelSelection}
-        >
+        <Button color="secondary" className="" onClick={cancelSelection}>
           Cancel
         </Button>
         <DeleteConfirmationModal
-          selectedProjects={selectedProjects}
+          selectedDocuments={selectedDocuments}
           onDelete={handleDelete}
           onCancel={cancelSelection}
         />
-        <Button
-          color="secondary"
-          className=""
-          onClick={handleSelectAll}
-        >
-          {selectedProjects.length === displayedProjects.length
+        <Button color="secondary" className="" onClick={handleSelectAll}>
+          {selectedDocuments.length === displayDocuments.length
             ? "Deselect All"
             : "Select All"}
         </Button>
