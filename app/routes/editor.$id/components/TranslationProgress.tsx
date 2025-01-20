@@ -1,19 +1,17 @@
 import { FaArrowRightLong } from "react-icons/fa6";
 import {useLoaderData} from '@remix-run/react'
 const TranslationProgress = () => {
-  const {progress}=useLoaderData();
-  const {
-    fileName,jobId,sourceLanguage,targetLanguage,
-    segments
-  }=progress;
+  const { documentDetails } = useLoaderData();
+  const segments = documentDetails.segments;
+
   const totalWords = segments.reduce((sum, segment) => {
-    return sum + segment.sourceText.split(" ").length;
+    return sum + segment.source_text?.split(" ").length;
   }, 0);
 
   // Calculate completed word count
   const completedWords = segments.reduce((sum, segment) => {
-    return segment.isTranslated
-      ? sum + segment.sourceText.split(" ").length
+    return !!segment.target_text
+      ? sum + segment.source_text?.split(" ").length
       : sum;
   }, 0);
 
@@ -24,16 +22,22 @@ const TranslationProgress = () => {
       <div className="flex items-center justify-around px-10 max-w-3xl mx-auto">
         {/* File name and job ID */}
         <div className="space-y-1">
-          <h3 className="text-sm font-medium text-neutral-950">{fileName}</h3>
-          <p className="text-xs text-neutral-800">Job id: {jobId}</p>
+          <h3 className="text-sm font-medium text-neutral-950">
+            {documentDetails.title}
+          </h3>
+          <p className="text-xs text-neutral-800">Job id: {"jobId"}</p>
         </div>
 
         {/* Language and Progress section */}
         <div className="flex items-center flex-col space-y-1 min-w-48">
           <div className="flex items-center space-x-2">
-            <span className="text-gray-700 text-xs">{sourceLanguage}</span>
+            <span className="text-gray-700 text-xs">
+              {documentDetails.source_lang === "en" ? "English" : "Tibetan"}
+            </span>
             <FaArrowRightLong className="text-neutral-950" />
-            <span className="text-gray-700 text-xs">{targetLanguage}</span>
+            <span className="text-gray-700 text-xs">
+              {documentDetails.target_lang === "en" ? "English" : "Tibetan"}
+            </span>
           </div>
           <div className="flex items-center space-x-1 w-full">
             <div className="relative w-full h-2 bg-gray-200 rounded-full overflow-hidden shadow-inner ">

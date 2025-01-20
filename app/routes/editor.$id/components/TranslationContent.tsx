@@ -1,22 +1,47 @@
-import { useEffect, useState } from "react";
+import { useFetcher, useLoaderData } from "@remix-run/react";
+import { useEffect, useRef, useState } from "react";
 import SplitArrowIcon from "~/icons/SplitArrowIcon";
 import SplitIcon from "~/icons/SplitIcon";
 
 const TranslationContent = ({
   segment,
-  editTranslation,
-  handleTranslationChange,
-  splitSegment,
+  handleActiveTab,
   updateTranslation,
   segments,
 }) => {
+  console.log("segment target text", segment.target_text);
+  const { documentDetails } = useLoaderData();
+  const fetcher = useFetcher();
+  const targetRef = useRef(null);
   const [isSpliting, setIsSpliting] = useState(false);
-  const [clickedIndex, setClickedIndex] = useState(null);
-
-  const handleSplit = () => {
-    splitSegment(segment.id, clickedIndex + 1);
+  const [clickedIndex, setClickedIndex] = useState(-1);
+  const handleSplit = () =>{
+    const formData = new FormData();
+    formData.append("segment_id", segment.id);
+    formData.append("split_position", (clickedIndex + 1).toString());
+    fetcher.submit(formData, {
+      method: "post",
+      action: `/api/segment/split`,
+    });
     setIsSpliting(false);
   };
+ 
+
+  const handleTranslation = () => {
+    const editedTranslation = targetRef.current?.value;
+    const formData = new FormData();
+    formData.append("text", segment.source_text);
+    formData.append("target_text", editedTranslation);
+    formData.append("document_id", documentDetails.id);
+    formData.append("order", segment.order);
+    formData.append("segment_id", segment.id);  
+
+    fetcher.submit(formData, {
+      method: "post",
+      action: `/api/translate/segment/`,
+    });
+    handleActiveTab();
+  }
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -59,7 +84,6 @@ const TranslationContent = ({
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [segments]);
-
   return (
     <div className="w-full bg-white rounded-lg border border-primary-600 px-4 relative group/{split}">
       <div
@@ -83,13 +107,13 @@ const TranslationContent = ({
         {isSpliting ? (
           <div className="flex-1 flex flex-col item-center">
             <p className="flex-1 font-poppins bg-neutral-50 rounded-lg p-2">
-              {segment.sourceText.split(" ")?.map((text, index) => (
+              {segment.source_text.split("")?.map((text, index) => (
                 <span
                   key={index}
                   className="cursor-text"
                   onClick={() => setClickedIndex(index)}
                 >
-                  {text}{" "}
+                  {text}
                   {clickedIndex === index && (
                     <SplitArrowIcon
                       className="inline-block mx-1"
@@ -109,39 +133,38 @@ const TranslationContent = ({
               </button>
               <button
                 className={`px-3 py-1 bg-secondary-600 text-white text-sm rounded-md hover:scale-105 transition-transform duration-100 mt-1 ${
-                  clickedIndex === null &&
+                  clickedIndex === -1 &&
                   "opacity-50 cursor-not-allowed hover:scale-100"
                 }`}
                 onClick={() => handleSplit()}
-                disabled={clickedIndex === null}
+                disabled={clickedIndex === -1}
               >
                 Confirm
               </button>
             </div>
           </div>
         ) : (
-          <p className="flex-1 font-poppins">{segment.sourceText}</p>
+          <p className="flex-1 font-poppins">{segment.source_text}</p>
         )}
 
         <div className="flex-1 flex flex-col item-center">
           <div className="relative flex-1 w-full">
             <div className="invisible whitespace-pre-wrap break-words pt-1 pb-3 px-3 text-[14px] leading-5 font-monlam resize-none">
-              {segment.translation}
+              {segment.target_text}
             </div>
             <textarea
-              id="translation"
+              ref={targetRef}
               name="translation"
               className="absolute inset-0 w-full h-full resize-none pt-1 pb-3 px-3 shadow-input border-[0.5px] rounded-md text-[14px] leading-6 font-monlam outline-none ring-0 bg-white overflow-y-scroll scrollbar-hide"
-              value={segment.translation}
-              onChange={(e) => editTranslation(segment.id, e.target.value)}
+              // value={editedTranslation}
+              // onChange={(e) => setEditedTranslation(e.target.value)}
+              defaultValue={segment.target_text}
             />
           </div>
           <div className="flex-1 flex items-center justify-end">
             <button
               className=" px-3 py-1 bg-secondary-600 text-white text-sm rounded-md hover:scale-105 transition-transform duration-100 mt-1"
-              onClick={() =>
-                handleTranslationChange(segment.id, segment.translation)
-              }
+              onClick={handleTranslation}
             >
               Translated
             </button>
@@ -156,7 +179,7 @@ const TranslationContent = ({
         </div>
         <div className="flex-1 flex items-center justify-between">
           <h3 className="text-primary-900 font-medium text-md ">
-            TM and MT Suggestion (3)
+            TM and MT Suggestion {4}
           </h3>
         </div>
       </div>

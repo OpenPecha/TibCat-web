@@ -2,7 +2,6 @@ import FileIcon from "~/icons/FileIcon";
 import ModelList from "./ModelList";
 import { IoIosArrowBack } from "react-icons/io";
 import { useState } from "react";
-import LoadingRing from "~/components/LoadingRing";
 
 export function FileDetails({
   fileDetails,
@@ -10,7 +9,6 @@ export function FileDetails({
   onTranslate,
   translationStatus,
 }) {
-  console.log("status ::", translationStatus);
   const [order, setOrder] = useState(["Melong", "Mitra"]);
 
   return (

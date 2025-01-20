@@ -7,8 +7,11 @@ import {
 } from "~/icons/DocumentIcons";
 import { fileTypes } from "~/lib/constants";
 import { useFetcher } from "@remix-run/react";
+type ExportDocsProps = {
+  documentId: string | number; 
+};
 
-const Exportdocs = ({ documentId }) => {
+const  Exportdocs: React.FC<ExportDocsProps> = ({ documentId }) => {
   const [open, setOpen] = useState(false);
   const [selectedFormat, setSelectedFormat] = useState("split");
   const [selectedFileType, setSelectedFileType] = useState("docx");

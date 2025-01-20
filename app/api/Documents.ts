@@ -10,6 +10,10 @@ export async function getDocuments(user_id: string) {
   return response.json();
 }
 
+export async function getDocumentDetails(document_id: number | string) {
+  const response = await axios.get(`${baseUrl}/documents/${document_id}`);
+  return response.data;
+}
 export async function deleteDocument(document_id: number) {
   console.log("document_id:", document_id);
   const response = await axios.delete(`${baseUrl}/documents/${document_id}`, {
