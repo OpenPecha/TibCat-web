@@ -37,7 +37,8 @@ export const action: ActionFunction = async ({ request }) => {
   const payload = JSON.stringify({
     username: user.nickname,
     picture: user.picture,
-    role: "user",
+    email: user.email,
+    role: "user"
   });
   try {
     const response = await fetch(`${baseURL}/users/`, {
