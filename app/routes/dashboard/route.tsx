@@ -14,7 +14,6 @@ export const loader: LoaderFunction = async ({ request }) => {
   const filteredDocuments = documents.filter((project) =>
     project.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
-
   return {
     user,
     filteredDocuments,

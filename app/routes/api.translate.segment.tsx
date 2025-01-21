@@ -19,7 +19,6 @@ export const action: ActionFunction = async ({ request }) => {
       order,
     };
     const res = await updateSegment(segmentId, data);
-    console.log("Response: in trsass", res);
     return { success: true, data: res };
   } catch (error) {
     console.error("Translation error:", error);

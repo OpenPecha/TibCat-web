@@ -1,21 +1,22 @@
 import { useFetcher, useLoaderData } from "@remix-run/react";
+import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import SplitArrowIcon from "~/icons/SplitArrowIcon";
 import SplitIcon from "~/icons/SplitIcon";
+import { fetchModelSuggestions } from "../utils/ModelSuggestions";
 
 const TranslationContent = ({
   segment,
   handleActiveTab,
-  updateTranslation,
   segments,
 }) => {
-  console.log("segment target text", segment.target_text);
   const { documentDetails } = useLoaderData();
   const fetcher = useFetcher();
   const targetRef = useRef(null);
   const [isSpliting, setIsSpliting] = useState(false);
   const [clickedIndex, setClickedIndex] = useState(-1);
-  const handleSplit = () =>{
+  const [translationSuggestions, setTranslationSuggestions] = useState(null);
+  const handleSplit = () => {
     const formData = new FormData();
     formData.append("segment_id", segment.id);
     formData.append("split_position", (clickedIndex + 1).toString());
@@ -25,7 +26,6 @@ const TranslationContent = ({
     });
     setIsSpliting(false);
   };
- 
 
   const handleTranslation = () => {
     const editedTranslation = targetRef.current?.value;
@@ -34,56 +34,42 @@ const TranslationContent = ({
     formData.append("target_text", editedTranslation);
     formData.append("document_id", documentDetails.id);
     formData.append("order", segment.order);
-    formData.append("segment_id", segment.id);  
+    formData.append("segment_id", segment.id);
 
     fetcher.submit(formData, {
       method: "post",
       action: `/api/translate/segment/`,
     });
     handleActiveTab();
+  };
+
+  const handleKeyDown = (e) => {
+    if (!e.ctrlKey) return;
+    if(e.key.toLowerCase() === "s") {
+        e.preventDefault();
+        setIsSpliting(true);
+    }
+    const numKey = parseInt(e.key);
+    if (numKey >= 1 && numKey <= translationSuggestions?.length) {
+      e.preventDefault();
+      const suggestionIndex = numKey - 1;
+
+      if (translationSuggestions?.length > suggestionIndex) {
+        targetRef.current.value =
+          translationSuggestions[suggestionIndex].target_text;
+      }
+      return;
+    }
   }
+ useEffect(() => {
+   window.addEventListener("keydown", handleKeyDown);
+   return () => window.removeEventListener("keydown", handleKeyDown);
+ }, [handleKeyDown]);
 
   useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.ctrlKey) {
-        console.log("key", e.key);
-        switch (e.key) {
-          case "1":
-            e.preventDefault();
-            if (segment?.suggestions[0]) {
-              updateTranslation(segment.id, 0);
-            }
-            break;
-          case "2":
-            e.preventDefault();
-            if (segment?.suggestions[1]) {
-              updateTranslation(segment.id, 1);
-            }
-            break;
-          case "3":
-            e.preventDefault();
-            if (segment?.suggestions[2]) {
-              updateTranslation(segment.id, 2);
-            }
-            break;
-          case "4":
-            e.preventDefault();
-            if (segment?.suggestions[3]) {
-              updateTranslation(segment.id, 3);
-            }
-            break;
-          case "s":
-            e.preventDefault();
-            setIsSpliting(true);
+    fetchModelSuggestions(segment.id, setTranslationSuggestions);
+  }, [segment]);
 
-            break;
-        }
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [segments]);
   return (
     <div className="w-full bg-white rounded-lg border border-primary-600 px-4 relative group/{split}">
       <div
@@ -136,7 +122,7 @@ const TranslationContent = ({
                   clickedIndex === -1 &&
                   "opacity-50 cursor-not-allowed hover:scale-100"
                 }`}
-                onClick={() => handleSplit()}
+                onClick={handleSplit}
                 disabled={clickedIndex === -1}
               >
                 Confirm
@@ -149,13 +135,13 @@ const TranslationContent = ({
 
         <div className="flex-1 flex flex-col item-center">
           <div className="relative flex-1 w-full">
-            <div className="invisible whitespace-pre-wrap break-words pt-1 pb-3 px-3 text-[14px] leading-5 font-monlam resize-none">
-              {segment.target_text}
+            <div className="invisible whitespace-pre-wrap break-words pt-1 pb-3 px-3 text-[14px] leading-5 font-monlam resize-none border border-blue-300">
+              {targetRef.current?.value}
             </div>
             <textarea
               ref={targetRef}
               name="translation"
-              className="absolute inset-0 w-full h-full resize-none pt-1 pb-3 px-3 shadow-input border-[0.5px] rounded-md text-[14px] leading-6 font-monlam outline-none ring-0 bg-white overflow-y-scroll scrollbar-hide"
+              className="absolute inset-0 w-full h-full resize-none pt-1 pb-3 px-3 shadow-input  rounded-md text-[14px] leading-6 font-monlam outline-none ring-0 bg-white overflow-y-scroll scrollbar-hide border border-red-500"
               // value={editedTranslation}
               // onChange={(e) => setEditedTranslation(e.target.value)}
               defaultValue={segment.target_text}
@@ -172,36 +158,37 @@ const TranslationContent = ({
         </div>
       </div>
 
-      <div className="flex items-start justify-between space-x-4">
-        {/* hidden element for layout*/}
-        <div className=" flex items-center justify-center rounded-full opacity-0">
-          <div className="w-4 h-4 rounded-full bg-primary-700"></div>
+      {translationSuggestions?.length !== 0 && (
+        <div className="flex items-start justify-between space-x-4">
+          {/* hidden element for layout*/}
+          <div className=" flex items-center justify-center rounded-full opacity-0">
+            <div className="w-4 h-4 rounded-full bg-primary-700"></div>
+          </div>
+          <div className="flex-1 flex items-center justify-between">
+            <h3 className="text-primary-900 font-medium text-md ">
+              TM and MT Suggestion {translationSuggestions?.length}
+            </h3>
+          </div>
         </div>
-        <div className="flex-1 flex items-center justify-between">
-          <h3 className="text-primary-900 font-medium text-md ">
-            TM and MT Suggestion {4}
-          </h3>
-        </div>
-      </div>
+      )}
 
       <div className="space-y-2 space-x-4 pb-4 ">
-        {/* First Suggestion */}
         <div className="max-h-48 overflow-y-scroll scrollbar-hide">
-          {segment?.suggestions?.map((suggestion, index) => (
+          {translationSuggestions?.map((suggestion, index) => (
             <div
               className="flex items-start justify-between space-x-4 space-y-1"
-              key={suggestion.text + index}
+              key={suggestion.id}
             >
               {/* hidden element for layout*/}
               <div className=" flex items-center justify-center rounded-full opacity-0">
                 <div className="w-4 h-4 rounded-full bg-primary-700"></div>
               </div>
               <p className="flex-1 text-neutral-800 text-sm font-poppins">
-                {segment.sourceText}
+                {segment.source_text}
               </p>
               <div className="flex-1 flex flex-col items-end justify-start group/{swap} gap-2 pr-5 pt-2">
                 <p className="flex-1 text-neutral-800 text-[12px] leading-5 font-monlam text-left w-full">
-                  {suggestion.text}
+                  {suggestion.target_text}
                 </p>
                 <div className="flex justify-end gap-2 items-center w-full relative ">
                   <div className="flex-1 pl-2 text-xs text-neutral-800 opacity-0 transition-opacity duration-300 group-hover/{swap}:opacity-100 absolute left-2">
@@ -211,16 +198,16 @@ const TranslationContent = ({
                     {suggestion.source}
                   </p>
                   <span className="text-xs text-neutral-800">
-                    {suggestion.language}
+                    {suggestion?.translated_by + " " + suggestion?.target_lang}
                   </span>
                   <span
                     className={`px-3 py-[0.5px] ${
-                      suggestion.confidence <= 50
+                      suggestion.version <= "50"
                         ? "bg-primary-700"
                         : "bg-success-500"
                     } text-white text-[12px] rounded-lg`}
                   >
-                    {suggestion.confidence}%
+                    {suggestion.version}%
                   </span>
                 </div>
               </div>

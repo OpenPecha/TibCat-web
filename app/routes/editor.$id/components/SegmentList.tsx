@@ -12,7 +12,6 @@ import TranslationProgress from "./TranslationProgress";
 
 const TranslationAccordion = () => {
   const { documentDetails } = useLoaderData();
-  console.log("documentDetails", documentDetails.segments);
   const [activeSegment, setActiveSegment] = useState('0');
 
   const handleAccordionChange = (value:string) => {
@@ -25,30 +24,6 @@ const TranslationAccordion = () => {
       return String(current+1);
     });
   }
-  // const updateTranslation = (segmentId, suggestionIndex) => {
-  //   setSegments(
-  //     segments.map((segment) => {
-  //       if (segment.id === segmentId) {
-  //         const currentTranslation = segment.translation;
-  //         const newTranslation = segment.suggestions[suggestionIndex].text;
-
-  //         // Swap the current translation with the selected suggestion
-  //         const updatedSuggestions = [...segment.suggestions];
-  //         updatedSuggestions[suggestionIndex] = {
-  //           ...segment.suggestions[suggestionIndex],
-  //           text: currentTranslation,
-  //         };
-
-  //         return {
-  //           ...segment,
-  //           translation: newTranslation,
-  //           suggestions: updatedSuggestions,
-  //         };
-  //       }
-  //       return segment;
-  //     })
-  //   );
-  // };
 
   if(documentDetails.length===0) return null;
 
@@ -74,7 +49,6 @@ const TranslationAccordion = () => {
               <TranslationContent
                 segment={segment}
                 handleActiveTab={handleActiveTab}
-                updateTranslation={()=>{}}
                 segments={documentDetails.segments}
               />
             </AccordionContent>

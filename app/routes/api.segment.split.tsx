@@ -10,7 +10,8 @@ export const action: ActionFunction = async ({ request }) => {
     }
     const formData = await request.formData();
       const segmentId = formData.get("segment_id");
-      const split_position = formData.get("split_position");
+    const split_position = formData.get("split_position");
+    console.log("segmentId:", segmentId, "split_position:", split_position);
       const res = await axios.post(`${endpoint}/segments/split`, {
         segment_id: segmentId,
         split_position: split_position,
