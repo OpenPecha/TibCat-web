@@ -134,22 +134,18 @@ const TranslationContent = ({
         )}
 
         <div className="flex-1 flex flex-col item-center">
-          <div className="relative flex-1 w-full">
-            <div className="invisible whitespace-pre-wrap break-words pt-1 pb-3 px-3 text-[14px] leading-5 font-monlam resize-none border border-blue-300">
-              {targetRef.current?.value}
-            </div>
+          <div className="flex-1 w-full min-h-16">
             <textarea
               ref={targetRef}
               name="translation"
-              className="absolute inset-0 w-full h-full resize-none pt-1 pb-3 px-3 shadow-input  rounded-md text-[14px] leading-6 font-monlam outline-none ring-0 bg-white overflow-y-scroll scrollbar-hide border border-red-500"
-              // value={editedTranslation}
-              // onChange={(e) => setEditedTranslation(e.target.value)}
+              className="border-[0.5px] border-neutral-600 inset-0 w-full h-full min-h-16 pt-1 pb-3 px-3 shadow-input rounded-md text-[14px] leading-6 font-monlam outline-none ring-0 bg-white overflow-y-scroll scrollbar-hide placeholder:text-sm placeholder:font-poppins"
+              placeholder="Translate here..."
               defaultValue={segment.target_text}
             />
           </div>
           <div className="flex-1 flex items-center justify-end">
             <button
-              className=" px-3 py-1 bg-secondary-600 text-white text-sm rounded-md hover:scale-105 transition-transform duration-100 mt-1"
+              className={`px-3 py-1 bg-secondary-600 text-white text-sm rounded-md hover:scale-105 transition-transform duration-100 mt-1`}
               onClick={handleTranslation}
             >
               Translated

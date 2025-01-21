@@ -33,12 +33,11 @@ export const action: ActionFunction = async ({ request }) => {
   if (!baseURL) {
     throw new Error("API_URL environment variable is not set");
   }
-
   const payload = JSON.stringify({
     username: user.nickname,
     picture: user.picture,
+    role: "user",
     email: user.email,
-    role: "user"
   });
   try {
     const response = await fetch(`${baseURL}/users/`, {
