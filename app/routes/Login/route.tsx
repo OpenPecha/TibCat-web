@@ -3,15 +3,12 @@ import { useLoaderData } from "@remix-run/react";
 import Login from "./components/Login";
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const url = new URL(request.url);
-  const domain = url.hostname;
-  const isLocal = domain === "localhost";
   const origin_url=process.env.ORIGIN_URL;
 
   const auth = {
     domain: process.env.AUTH0_DOMAIN,
     clientId: process.env.AUTH0_CLIENT_ID,
-    host: isLocal ? "http://" + domain + ":3000" : origin_url
+    host: origin_url
   };
   return { auth };
 };
