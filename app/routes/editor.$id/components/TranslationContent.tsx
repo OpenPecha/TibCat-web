@@ -191,19 +191,17 @@ const TranslationContent = ({
                     CTRL+{index + 1}
                   </div>
                   <p className="text-xs text-neutral-800">
-                    {suggestion.source}
+                    Source: {suggestion.translated_by}
                   </p>
                   <span className="text-xs text-neutral-800">
-                    {suggestion?.translated_by + " " + suggestion?.target_lang}
+                    { "Tibetan " + suggestion?.target_lang}
                   </span>
                   <span
                     className={`px-3 py-[0.5px] ${
-                      suggestion.version <= "50"
-                        ? "bg-primary-700"
-                        : "bg-success-500"
+                      false ? "bg-primary-700" : "bg-success-500"
                     } text-white text-[12px] rounded-lg`}
                   >
-                    {suggestion.version}%
+                    {74}%
                   </span>
                 </div>
               </div>
