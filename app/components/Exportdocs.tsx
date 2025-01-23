@@ -6,7 +6,6 @@ import {
   TargetPageIcon,
 } from "~/icons/DocumentIcons";
 import { fileTypes } from "~/lib/constants";
-import { useFetcher } from "@remix-run/react";
 type ExportDocsProps = {
   documentId: string | number; 
 };
@@ -56,8 +55,8 @@ const  Exportdocs: React.FC<ExportDocsProps> = ({ documentId }) => {
       </button>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="bg-white">
-          <div className=" border border-dashed border-primary-900 rounded-lg mx-auto bg-white p-6">
+        <DialogContent className="bg-white w-fit">
+          <div className=" border border-dashed border-primary-900 rounded-lg bg-white p-6 m-4">
             <div className="space-y-4">
               {/* Header */}
               <div className="flex justify-between items-center">
@@ -104,7 +103,7 @@ const  Exportdocs: React.FC<ExportDocsProps> = ({ documentId }) => {
                           }`}
                         ></div>
                       </div>
-                      <span className={`text-sm `}>{option.label}</span>
+                      <span className={`text-sm text-nowrap`}>{option.label}</span>
                     </div>
                   </label>
                 ))}

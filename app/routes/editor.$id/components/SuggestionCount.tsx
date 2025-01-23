@@ -4,7 +4,7 @@ export default function SuggestionCount({ translationSuggestions, fallbackSugges
     return (
       <>
         {translationSuggestions && translationSuggestions?.length !== 0 && (
-          <div className="flex items-start justify-between space-x-4">
+          <div className="flex items-start justify-between space-x-4 mt-4">
             {/* hidden element for layout*/}
             <div className="flex items-center justify-center rounded-full opacity-0">
               <div className="w-4 h-4 rounded-full bg-primary-700"></div>
@@ -18,7 +18,7 @@ export default function SuggestionCount({ translationSuggestions, fallbackSugges
         )}
         {fallbackSuggestions &&
           (fallbackSuggestions?.melong || fallbackSuggestions?.mitra) && (
-            <div className="flex items-start justify-between space-x-4">
+            <div className="flex items-start justify-between space-x-4 mt-5">
               {/* hidden element for layout*/}
               <div className="flex items-center justify-center rounded-full opacity-0">
                 <div className="w-4 h-4 rounded-full bg-primary-700"></div>
