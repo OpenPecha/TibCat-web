@@ -3,15 +3,15 @@ import {useLoaderData} from '@remix-run/react'
 const TranslationProgress = () => {
   const { documentDetails } = useLoaderData();
   const segments = documentDetails.segments;
-
+  const wordDelimiter = documentDetails.source_lang === "bo" ? "་" : " ";
   const totalWords = segments.reduce((sum, segment) => {
-    return sum + segment.source_text?.split(" ").length;
+    return sum + segment.source_text?.split(wordDelimiter).length;
   }, 0);
 
   // Calculate completed word count
   const completedWords = segments.reduce((sum, segment) => {
     return !!segment.target_text
-      ? sum + segment.source_text?.split(" ").length
+      ? sum + segment.source_text?.split(wordDelimiter).length
       : sum;
   }, 0);
 

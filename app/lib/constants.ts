@@ -61,3 +61,8 @@ export const MODAL_LIST=[
     description: "Recommended for Buddhist literature",
   },
 ]
+
+export const LANGUAGES = {
+  bo: "Tibetan",
+  en: "English"
+};

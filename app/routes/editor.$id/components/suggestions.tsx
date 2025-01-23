@@ -1,9 +1,14 @@
+import { useLoaderData } from "@remix-run/react";
+
 export default function Suggestions({
   translationSuggestions,
   fallbackSuggestions,
   segment,
   fetchingSuggestions,
 }) {
+
+  const { documentDetails } = useLoaderData();
+  console.log("Suggestions", translationSuggestions, fallbackSuggestions, segment, fetchingSuggestions);
     if(fetchingSuggestions) return (
       <div className="flex items-start justify-between space-x-4 space-y-1 animate-pulse my-4">
         {/* Hidden element for layout */}
@@ -44,11 +49,23 @@ export default function Suggestions({
               <div className="flex items-center justify-center rounded-full opacity-0">
                 <div className="w-4 h-4 rounded-full bg-primary-700"></div>
               </div>
-              <p className="flex-1 text-neutral-800 text-sm font-poppins">
+              <p
+                className={`flex-1 text-neutral-800 ${
+                  documentDetails.source_lang === "bo"
+                    ? "font-monlam text-[12px] leading-6"
+                    : "font-poppins text-[12px]"
+                }`}
+              >
                 {segment.source_text}
               </p>
-              <div className="flex-1 flex flex-col items-end justify-start group/{swap} gap-2 pr-5 pt-2">
-                <p className="flex-1 text-neutral-800 text-[12px] leading-5 font-monlam text-left w-full">
+              <div className="flex-1 flex flex-col items-end justify-start group/{swap} gap-2 pr-5">
+                <p
+                  className={`flex-1 text-neutral-800  text-left w-full ${
+                    documentDetails.target_lang === "bo"
+                      ? "font-monlam text-[12px] leading-5"
+                      : "font-poppins text-[12px]"
+                  }`}
+                >
                   {suggestion.target_text}
                 </p>
                 <div className="flex justify-end gap-2 items-center w-full relative ">
@@ -78,11 +95,23 @@ export default function Suggestions({
                     <div className="flex items-center justify-center rounded-full opacity-0">
                       <div className="w-4 h-4 rounded-full bg-primary-700"></div>
                     </div>
-                    <p className="flex-1 text-neutral-800 text-sm font-poppins">
+                    <p
+                      className={`flex-1 text-neutral-800 ${
+                        documentDetails.source_lang === "bo"
+                          ? "font-monlam text-[12px] leading-6"
+                          : "font-poppins text-[12px]"
+                      }`}
+                    >
                       {segment.source_text}
                     </p>
                     <div className="flex-1 flex flex-col items-end justify-start group/{swap} gap-2 pr-5 pt-2">
-                      <p className="flex-1 text-neutral-800 text-[12px] leading-5 font-monlam text-left w-full">
+                      <p
+                        className={`flex-1 text-neutral-800  text-left w-full ${
+                          documentDetails.target_lang === "bo"
+                            ? "font-monlam text-[12px] leading-5"
+                            : "font-poppins text-[12px]"
+                        }`}
+                      >
                         {fallbackSuggestions.melong}
                       </p>
                       <div className="flex justify-end gap-2 items-center w-full relative ">
@@ -107,11 +136,23 @@ export default function Suggestions({
                     <div className="flex items-center justify-center rounded-full opacity-0">
                       <div className="w-4 h-4 rounded-full bg-primary-700"></div>
                     </div>
-                    <p className="flex-1 text-neutral-800 text-sm font-poppins">
+                    <p
+                      className={`flex-1 text-neutral-800 ${
+                        documentDetails.source_lang === "bo"
+                          ? "font-monlam text-[12px] leading-6"
+                          : "font-poppins text-[12px]"
+                      }`}
+                    >
                       {segment.source_text}
                     </p>
                     <div className="flex-1 flex flex-col items-end justify-start group/{swap} gap-2 pr-5 pt-2">
-                      <p className="flex-1 text-neutral-800 text-[12px] leading-5 font-monlam text-left w-full">
+                      <p
+                        className={`flex-1 text-neutral-800  text-left w-full ${
+                          documentDetails.target_lang === "bo"
+                            ? "font-monlam text-[12px] leading-5"
+                            : "font-poppins text-[12px]"
+                        }`}
+                      >
                         {fallbackSuggestions.mitra}
                       </p>
                       <div className="flex justify-end gap-2 items-center w-full relative ">

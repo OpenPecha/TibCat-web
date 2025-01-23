@@ -7,7 +7,7 @@ import { fetchModelSuggestions } from "../utils/ModelSuggestions";
 import Suggestions from "./suggestions";
 import SuggestionCount from "./SuggestionCount";
 
-const TranslationContent = ({ segment, handleActiveTab, segments }) => {
+const TranslationContent = ({ segment, handleActiveTab }) => {
   const { documentDetails } = useLoaderData();
   const fetcher = useFetcher();
   const targetRef = useRef(null);
@@ -25,6 +25,7 @@ const TranslationContent = ({ segment, handleActiveTab, segments }) => {
       action: `/api/segment/split`,
     });
     setIsSpliting(false);
+    setClickedIndex(-1);
   };
 
   const handleTranslation = () => {
@@ -105,7 +106,13 @@ const TranslationContent = ({ segment, handleActiveTab, segments }) => {
         </div>
         {isSpliting ? (
           <div className="flex-1 flex flex-col item-center">
-            <p className="flex-1 font-poppins bg-neutral-50 rounded-lg p-2">
+            <p
+              className={`flex-1 bg-neutral-50 rounded-lg p-2 ${
+                documentDetails.source_lang === "bo"
+                  ? "font-monlam text-xs leading-6"
+                  : "font-poppins"
+              }`}
+            >
               {segment.source_text.split("")?.map((text, index) => (
                 <span
                   key={index}
@@ -143,7 +150,15 @@ const TranslationContent = ({ segment, handleActiveTab, segments }) => {
             </div>
           </div>
         ) : (
-          <p className="flex-1 font-poppins">{segment.source_text}</p>
+          <p
+            className={`flex-1 ${
+              documentDetails.source_lang === "bo"
+                ? "font-monlam text-xs leading-6"
+                : "font-poppins"
+            }`}
+          >
+            {segment.source_text}
+          </p>
         )}
 
         <div className="flex-1 flex flex-col item-center">
@@ -151,7 +166,11 @@ const TranslationContent = ({ segment, handleActiveTab, segments }) => {
             <textarea
               ref={targetRef}
               name="translation"
-              className="border-[0.5px] border-neutral-600 inset-0 w-full h-full min-h-16 pt-1 pb-3 px-3 shadow-input rounded-md text-[14px] leading-6 font-monlam outline-none ring-0 bg-white overflow-y-scroll scrollbar-hide placeholder:text-sm placeholder:font-poppins"
+              className={`border-[0.5px] border-neutral-600 inset-0 w-full h-full min-h-16 pt-1 pb-3 px-3 shadow-input rounded-md  outline-none ring-0 bg-white overflow-y-scroll scrollbar-hide placeholder:text-sm placeholder:font-poppins ${
+                documentDetails.target_lang === "bo"
+                  ? "font-monlam text-xs leading-6"
+                  : "font-poppins text-[14px]"
+              }`}
               placeholder="Translate here..."
               defaultValue={segment.target_text}
             />

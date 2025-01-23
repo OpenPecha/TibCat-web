@@ -2,12 +2,18 @@ import FileIcon from "~/icons/FileIcon";
 import ModelList from "./ModelList";
 import { IoIosArrowBack } from "react-icons/io";
 import { useState } from "react";
+import LanguageSelector from "./LanguageSelector";
 
 export function FileDetails({
   fileDetails,
   onChooseNewFile,
   onTranslate,
   translationStatus,
+  sourceLang,
+  setSourceLang,
+  targetLang,
+  setTargetLang,
+  getTargetLanguages,
 }) {
   const [order, setOrder] = useState(["Melong", "Mitra"]);
 
@@ -30,18 +36,20 @@ export function FileDetails({
                 {/* {fileDetails.jobId} */}
                 jd12333
               </p>
-              <p className="text-sm">
-                <span className="text-sm text-neutral-800">
-                  Total Word Count:
-                </span>{" "}
-                2350
-                {/* {fileDetails.wordCount} */}
-              </p>
+              <LanguageSelector
+                {...{
+                  sourceLang,
+                  setSourceLang,
+                  targetLang,
+                  setTargetLang,
+                  getTargetLanguages,
+                }}
+              />
             </div>
           </div>
 
-          <div>
-            <h4 className="text-sm text-neutral-800 mb-2">
+          <div className="mt-1">
+            <h4 className="text-sm text-neutral-800 mb-0">
               Order your Machine Translation Model
             </h4>
             <ModelList handleOrderChange={setOrder} />

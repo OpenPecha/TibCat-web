@@ -40,8 +40,8 @@ const TranslationAccordion = () => {
           <AccordionItem key={segment.id} value={String(index)}>
             <AccordionTrigger className="hover:no-underline">
               <TranslationHeader
-                englishText={segment.source_text}
-                tibetanText={segment.target_text}
+                source_text={segment.source_text}
+                target_text={segment.target_text}
                 isTranslated={!!segment.target_text}
               />
             </AccordionTrigger>
@@ -49,7 +49,6 @@ const TranslationAccordion = () => {
               <TranslationContent
                 segment={segment}
                 handleActiveTab={handleActiveTab}
-                segments={documentDetails.segments}
               />
             </AccordionContent>
           </AccordionItem>

@@ -9,13 +9,17 @@ import Button from "~/components/Buttons";
 import { useFetcher, useLoaderData } from "@remix-run/react";
 import toast from "react-hot-toast";
 import Toast from "~/components/Toast";
+import { LANGUAGES } from "~/lib/constants";
 
 export default function FileUploadDialog() {
   const fetcher = useFetcher();
   const { user } = useLoaderData();
   const [open, setOpen] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
+  const [sourceLang, setSourceLang] = useState<string>("en");
+  const [targetLang, setTargetLang] = useState<string>("bo");
   const fileInputRef = useRef(null);
+
   const {
     uploadState,
     error,
@@ -28,7 +32,7 @@ export default function FileUploadDialog() {
     if (fetcher.data && fetcher.data?.success) {
       setOpen(false);
       setUploadState("idle");
-      Toast("File started processing...")
+      Toast("File started processing...");
     }
   }, [fetcher.data]);
 
@@ -37,8 +41,8 @@ export default function FileUploadDialog() {
     formData.append("file_url", fileDetail.file_url);
     formData.append("user_id", user.id);
     formData.append("domain", "tibcat");
-    formData.append("source_lang", "en");
-    formData.append("target_lang", "bo");
+    formData.append("source_lang", sourceLang);
+    formData.append("target_lang", targetLang);
     formData.append("translation_order", model);
 
     fetcher.submit(formData, {
@@ -54,6 +58,11 @@ export default function FileUploadDialog() {
     handleFile(file);
   };
 
+  const getTargetLanguages = () => {
+    return Object.keys(LANGUAGES).filter((code) => code !== sourceLang);
+  };
+
+  console.log(sourceLang, targetLang);
   const renderContent = () => {
     if (uploadState === "complete") {
       return (
@@ -65,6 +74,7 @@ export default function FileUploadDialog() {
           }}
           onTranslate={HandleStartTranslation}
           translationStatus={fetcher.state}
+          {...{ sourceLang, setSourceLang, targetLang, setTargetLang, getTargetLanguages }}
         />
       );
     }
