@@ -4,18 +4,18 @@ import { useEffect, useRef, useState } from "react";
 import SplitArrowIcon from "~/icons/SplitArrowIcon";
 import SplitIcon from "~/icons/SplitIcon";
 import { fetchModelSuggestions } from "../utils/ModelSuggestions";
+import Suggestions from "./suggestions";
+import SuggestionCount from "./SuggestionCount";
 
-const TranslationContent = ({
-  segment,
-  handleActiveTab,
-  segments,
-}) => {
+const TranslationContent = ({ segment, handleActiveTab, segments }) => {
   const { documentDetails } = useLoaderData();
   const fetcher = useFetcher();
   const targetRef = useRef(null);
   const [isSpliting, setIsSpliting] = useState(false);
   const [clickedIndex, setClickedIndex] = useState(-1);
   const [translationSuggestions, setTranslationSuggestions] = useState(null);
+  const [fallbackSuggestions, setFallbackSuggestions] = useState(null);
+  const [fetchingSuggestions, setFetchingSuggestions] = useState(false);
   const handleSplit = () => {
     const formData = new FormData();
     formData.append("segment_id", segment.id);
@@ -45,29 +45,42 @@ const TranslationContent = ({
 
   const handleKeyDown = (e) => {
     if (!e.ctrlKey) return;
-    if(e.key.toLowerCase() === "s") {
-        e.preventDefault();
-        setIsSpliting(true);
-    }
-    const numKey = parseInt(e.key);
-    if (numKey >= 1 && numKey <= translationSuggestions?.length) {
+    if (e.key.toLowerCase() === "s") {
       e.preventDefault();
-      const suggestionIndex = numKey - 1;
-
-      if (translationSuggestions?.length > suggestionIndex) {
-        targetRef.current.value =
-          translationSuggestions[suggestionIndex].target_text;
-      }
+      setIsSpliting(true);
       return;
     }
-  }
- useEffect(() => {
-   window.addEventListener("keydown", handleKeyDown);
-   return () => window.removeEventListener("keydown", handleKeyDown);
- }, [handleKeyDown]);
+    const numKey = parseInt(e.key);
+    if (translationSuggestions?.length > 0) {
+      if (numKey >= 1 && numKey <= translationSuggestions?.length) {
+        e.preventDefault();
+        const suggestionIndex = numKey - 1;
+
+        if (translationSuggestions?.length > suggestionIndex) {
+          targetRef.current.value =
+            translationSuggestions[suggestionIndex].target_text;
+        }
+        return;
+      }
+    } else if (fallbackSuggestions) {
+      e.preventDefault();
+      targetRef.current.value =
+        numKey === 1 ? fallbackSuggestions?.melong : fallbackSuggestions?.mitra;
+      return;
+    }
+  };
+  useEffect(() => {
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [handleKeyDown]);
 
   useEffect(() => {
-    fetchModelSuggestions(segment.id, setTranslationSuggestions);
+    fetchModelSuggestions(
+      segment.id,
+      setTranslationSuggestions,
+      setFallbackSuggestions,
+      setFetchingSuggestions
+    );
   }, [segment]);
 
   return (
@@ -154,61 +167,15 @@ const TranslationContent = ({
         </div>
       </div>
 
-      {translationSuggestions?.length !== 0 && (
-        <div className="flex items-start justify-between space-x-4">
-          {/* hidden element for layout*/}
-          <div className=" flex items-center justify-center rounded-full opacity-0">
-            <div className="w-4 h-4 rounded-full bg-primary-700"></div>
-          </div>
-          <div className="flex-1 flex items-center justify-between">
-            <h3 className="text-primary-900 font-medium text-md ">
-              TM and MT Suggestion {translationSuggestions?.length}
-            </h3>
-          </div>
-        </div>
-      )}
-
-      <div className="space-y-2 space-x-4 pb-4 ">
-        <div className="max-h-48 overflow-y-scroll scrollbar-hide">
-          {translationSuggestions?.map((suggestion, index) => (
-            <div
-              className="flex items-start justify-between space-x-4 space-y-1"
-              key={suggestion.id}
-            >
-              {/* hidden element for layout*/}
-              <div className=" flex items-center justify-center rounded-full opacity-0">
-                <div className="w-4 h-4 rounded-full bg-primary-700"></div>
-              </div>
-              <p className="flex-1 text-neutral-800 text-sm font-poppins">
-                {segment.source_text}
-              </p>
-              <div className="flex-1 flex flex-col items-end justify-start group/{swap} gap-2 pr-5 pt-2">
-                <p className="flex-1 text-neutral-800 text-[12px] leading-5 font-monlam text-left w-full">
-                  {suggestion.target_text}
-                </p>
-                <div className="flex justify-end gap-2 items-center w-full relative ">
-                  <div className="flex-1 pl-2 text-xs text-neutral-800 opacity-0 transition-opacity duration-300 group-hover/{swap}:opacity-100 absolute left-2">
-                    CTRL+{index + 1}
-                  </div>
-                  <p className="text-xs text-neutral-800">
-                    Source: {suggestion.translated_by}
-                  </p>
-                  <span className="text-xs text-neutral-800">
-                    { "Tibetan " + suggestion?.target_lang}
-                  </span>
-                  <span
-                    className={`px-3 py-[0.5px] ${
-                      false ? "bg-primary-700" : "bg-success-500"
-                    } text-white text-[12px] rounded-lg`}
-                  >
-                    {74}%
-                  </span>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
+      <SuggestionCount {...{ translationSuggestions, fallbackSuggestions }} />
+      <Suggestions
+        {...{
+          translationSuggestions,
+          fallbackSuggestions,
+          segment,
+          fetchingSuggestions,
+        }}
+      />
     </div>
   );
 };
