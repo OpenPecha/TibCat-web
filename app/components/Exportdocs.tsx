@@ -12,7 +12,7 @@ type ExportDocsProps = {
 
 const  Exportdocs: React.FC<ExportDocsProps> = ({ documentId }) => {
   const [open, setOpen] = useState(false);
-  const [selectedFormat, setSelectedFormat] = useState("split");
+  const [selectedFormat, setSelectedFormat] = useState("separate");
   const [selectedFileType, setSelectedFileType] = useState("docx");
 
   const formatOptions = [
