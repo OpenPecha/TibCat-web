@@ -26,7 +26,7 @@ const DeleteConfirmationModal = ({ selectedDocuments, onDelete, onCancel }) => {
       const documentTitles = selectedDocuments.map((project) => project.title).join(", ");
 
         onDelete();
-        Toast(`${documentTitles} Deleted Successfully`);
+        Toast({message: `${documentTitles} Deleted Successfully`, type: 'success'});
 
       }
     }

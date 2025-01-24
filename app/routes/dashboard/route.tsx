@@ -13,7 +13,7 @@ export const loader: LoaderFunction = async ({ request }) => {
   const searchQuery = new URL(request.url).searchParams.get("search") || "";
   const filteredDocuments = documents.filter((project) =>
     project.title.toLowerCase().includes(searchQuery.toLowerCase())
-  ).reverse();
+  );
   return {
     user,
     filteredDocuments,

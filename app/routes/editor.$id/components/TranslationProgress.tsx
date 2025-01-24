@@ -1,22 +1,24 @@
 import { FaArrowRightLong } from "react-icons/fa6";
 import {useLoaderData} from '@remix-run/react'
+import { useEffect, useState } from "react";
+import { getTranslationProgress } from "../utils/getTranslationProgress";
 const TranslationProgress = () => {
-  const { documentDetails } = useLoaderData();
-  const segments = documentDetails.segments;
-  const wordDelimiter = documentDetails.source_lang === "bo" ? "་" : " ";
-  const totalWords = segments.reduce((sum, segment) => {
-    return sum + segment.source_text?.split(wordDelimiter).length;
-  }, 0);
+  const { documentDetails, translationProgress } = useLoaderData();
+  // const segments = documentDetails.segments;
+  // const wordDelimiter = documentDetails.source_lang === "bo" ? "་" : " ";
+  // const totalWords = segments.reduce((sum, segment) => {
+  //   return sum + segment.source_text?.split(wordDelimiter).length;
+  // }, 0);
 
-  // Calculate completed word count
-  const completedWords = segments.reduce((sum, segment) => {
-    return !!segment.target_text
-      ? sum + segment.source_text?.split(wordDelimiter).length
-      : sum;
-  }, 0);
-
+  // // Calculate completed word count
+  // const completedWords = segments.reduce((sum, segment) => {
+  //   return !!segment.target_text
+  //     ? sum + segment.source_text?.split(wordDelimiter).length
+  //     : sum;
+  // }, 0);
+  const totalWords = translationProgress?.total_word;
+  const completedWords = translationProgress?.translated_word;
   const completedPercentage = ((completedWords / totalWords) * 100).toFixed(1);
-
   return (
     <div className="w-full bg-neutral-50 p-4 rounded-lg shadow-sm mt-5">
       <div className="flex items-center justify-around px-10 max-w-3xl mx-auto">

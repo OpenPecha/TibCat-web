@@ -15,10 +15,14 @@ export async function getDocumentDetails(document_id: number | string) {
   return response.data;
 }
 export async function deleteDocument(document_id: number) {
-  console.log("document_id:", document_id);
+  console.log("document_id :", document_id);
   const response = await axios.delete(`${baseUrl}/documents/${document_id}`, {
     method: "DELETE",
   });
+  console.log("response :::: ", response)
+  if (response.status === 200) {
+    return { success: true, message: "Document deleted successfully" };
+  }
   return response.data
 }
 

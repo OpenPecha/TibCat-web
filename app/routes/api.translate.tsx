@@ -29,10 +29,10 @@ export async function action({ request }) {
       data: response.data,
     });
   } catch (error) {
-    console.error("Error:", error.response?.data || error.message);
+    console.error("Error translating docx ::::", error.response?.data || error.message);
     return Response.json({
       success: false,
-      message: "Failed to process translation",
+      message: error.response?.data?.detail || "Failed to process translation",
       error: error.response?.data || error.message || "fail to process",
       status: error.response?.status || 500,
     });

@@ -8,7 +8,6 @@ export default function Suggestions({
 }) {
 
   const { documentDetails } = useLoaderData();
-  console.log("Suggestions", translationSuggestions, fallbackSuggestions, segment, fetchingSuggestions);
     if(fetchingSuggestions) return (
       <div className="flex items-start justify-between space-x-4 space-y-1 animate-pulse my-4">
         {/* Hidden element for layout */}
@@ -77,8 +76,8 @@ export default function Suggestions({
                   </p>
                   <span className="text-xs text-neutral-800">
                     {suggestion?.target_lang === "bo"
-                      ? "Tibetan"
-                      : "English" + suggestion?.target_lang}
+                      ? "Tibetan "
+                      : "English " + suggestion?.target_lang}
                   </span>
                 </div>
               </div>

@@ -7,7 +7,6 @@ import { FileDetails } from "./FileDetails";
 import { useFileUpload } from "~/hooks/useFileUpload";
 import Button from "~/components/Buttons";
 import { useFetcher, useLoaderData } from "@remix-run/react";
-import toast from "react-hot-toast";
 import Toast from "~/components/Toast";
 import { LANGUAGES } from "~/lib/constants";
 
@@ -32,8 +31,21 @@ export default function FileUploadDialog() {
     if (fetcher.data && fetcher.data?.success) {
       setOpen(false);
       setUploadState("idle");
-      Toast("File started processing...");
+      Toast({ 
+      message: 'Success! File started processing...', 
+      type: 'success',  
+    });
+      console.log("fetcher.data", fetcher.data);
+    } else if (fetcher.data && !fetcher.data?.success) {
+      console.log("outer fetcher.data", fetcher.data);
+      Toast({
+        message: fetcher.data?.message || "Failed to process translation",
+        type: "error",
+        style: { border: "1px solid #fc0338" },
+      });
     }
+
+    // fetcher.data = null;
   }, [fetcher.data]);
 
   const HandleStartTranslation = async (fileDetail, model) => {
@@ -44,7 +56,6 @@ export default function FileUploadDialog() {
     formData.append("source_lang", sourceLang);
     formData.append("target_lang", targetLang);
     formData.append("translation_order", model);
-
     fetcher.submit(formData, {
       method: "post",
       action: "/api/translate", // Replace with your actual API endpoint
@@ -62,7 +73,6 @@ export default function FileUploadDialog() {
     return Object.keys(LANGUAGES).filter((code) => code !== sourceLang);
   };
 
-  console.log(sourceLang, targetLang);
   const renderContent = () => {
     if (uploadState === "complete") {
       return (

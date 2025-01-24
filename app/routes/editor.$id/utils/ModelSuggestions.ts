@@ -9,7 +9,6 @@ export const fetchModelSuggestions = async (
   try {
     // Make the first API call
     setFetchingSuggestions(true);
-    console.log("Fetching model suggestions for segment:", segment_id);
     const { data } = await axios.get(
       `https://tibcat-backend.onrender.com/model_translations/segment/${segment_id}`
     );
@@ -22,7 +21,6 @@ export const fetchModelSuggestions = async (
 
     } else {
       // If no data returned from the first API, call the second API
-      console.log("No suggestions found, fetching fallback translation.");
       const fallbackData = await axios.post(
         `https://tibcat-backend.onrender.com/translate/`,
         { segment_id }
@@ -33,12 +31,6 @@ export const fetchModelSuggestions = async (
 
     }
   } catch (error) {
-    // Check if the error is a failure or 404 from the first API
-    console.error(
-      "Error fetching model suggestions for segment:",
-      segment_id,
-      error
-    );
 
     // If error status is 404 or any other error, fall back to the second API
     if (
